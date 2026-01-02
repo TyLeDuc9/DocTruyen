@@ -1,0 +1,20 @@
+import { Routes, Route } from "react-router-dom";
+import { Layout } from "../layouts/Layout";
+import { Home } from "../pages/Home/Home";
+import { Category } from "../pages/Category/Category";
+import { AllStory } from "../pages/AllStory/AllStory";
+import { SlugStory } from "../pages/SlugStory/SlugStory";
+import { ChapterDetail } from "../pages/ChaperDetail/ChapterDetail";
+export const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="the-loai/:slug" element={<Category />} />
+        <Route path="all" element={<AllStory/>}/>
+        <Route path="manga/:slug" element={<SlugStory/>}/>
+        <Route path="/chapter/detail/:chapterSlug" element={<ChapterDetail/>}/>
+      </Route>
+    </Routes>
+  );
+};
