@@ -5,6 +5,40 @@ const crypto = require('crypto')
 const Session = require('../models/Session');
 const ACCESS_TOKEN_TTL = '30m'
 const REFRESH_TOKEN_TTL = 14 * 24 * 60 * 60 * 1000
+exports.refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies?.refreshToken;
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Refresh token not found" });
+    }
+
+    const hashed = crypto
+      .createHash("sha256")
+      .update(refreshToken)
+      .digest("hex");
+
+    const session = await Session.findOne({ refreshToken: hashed });
+    if (!session || session.expiresAt < new Date()) {
+      if (session) await session.deleteOne();
+      return res.status(401).json({ message: "Refresh token expired" });
+    }
+
+    const user = await User.findById(session.userId);
+    if (!user || user.isBlocked) {
+      return res.status(403).json({ message: "User not allowed" });
+    }
+
+    const newAccessToken = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "30m" }
+    );
+
+    return res.json({ accessToken: newAccessToken });
+  } catch {
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 exports.register = async (req, res) => {
     try {
         const { email, password } = req.body;

@@ -1,5 +1,6 @@
 import type { Story } from "../../types/storyType";
 import { Link } from "react-router-dom";
+import { FollowButton } from "../Button/FollowButton";
 
 interface ItemStoryProps {
   itemStory: Story;
@@ -7,7 +8,8 @@ interface ItemStoryProps {
 
 export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
   return (
-    <div className="w-44">
+    <div className="w-44 relative">
+      <FollowButton storyId={itemStory._id} />
       <Link to={`/manga/${itemStory.slug}`}>
         <img
           src={itemStory.thumbnail}
@@ -20,7 +22,7 @@ export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
         </h3>
       </Link>
 
-      <span className="block text-center text-[13px] font-medium hover:text-[#236288]">
+      <span className="block mt-1 text-center text-[13px] font-medium hover:text-[#236288]">
         Chương {itemStory.totalChapters}
       </span>
     </div>

@@ -1,8 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useStorySlug } from "../../hooks/useStorySlug";
-import { useNavigate } from "react-router-dom";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
-import { FiThumbsUp} from "react-icons/fi";
 import {
   FaUser,
   FaEye,
@@ -10,14 +8,11 @@ import {
   FaSyncAlt,
   FaBookOpen,
   FaPlus,
-  FaPlay,
-  FaListUl,
-  FaBookmark,
   FaInfoCircle,
-
 } from "react-icons/fa";
 import { useState } from "react";
 import { Chapter } from "../Chapter/Chapter";
+import { ActionButton } from "../../components/Button/ActionButton";
 
 const statusMap: Record<string, string> = {
   ONGOING: "Đang cập nhật",
@@ -35,21 +30,7 @@ export const SlugStory = () => {
     error: errorChapter,
   } = useChapterStorySlug(slug!);
 
-  const navigate = useNavigate();
   const [active, setActive] = useState(false);
-
-  const handleFirstChapter = () => {
-    if (!chapters || chapters.length === 0) return;
-    const firstChapter = chapters[0];
-    navigate(`/chapter/detail/${firstChapter.slug}`);
-  };
-
-  const handleNewChapter = () => {
-    if (!chapters || chapters.length === 0) return;
-
-    const latestChapter = chapters[chapters.length - 1];
-    navigate(`/chapter/detail/${latestChapter.slug}`);
-  };
 
   if (loading || loadingChapter)
     return <p className="text-center my-8">Đang tải truyện...</p>;
@@ -137,33 +118,7 @@ export const SlugStory = () => {
                 ))}
             </div>
 
-            <div className="flex gap-4 mt-6 flex-wrap">
-              <button
-                onClick={handleFirstChapter}
-                className="flex items-center cursor-pointer gap-2 px-5 py-2 bg-blue-400 text-white rounded hover:opacity-90 transition"
-              >
-                <FaPlay />
-                Đọc từ đầu
-              </button>
-
-              <button
-                onClick={handleNewChapter}
-                className="flex items-center cursor-pointer gap-2 px-5 py-2 bg-red-400 text-white rounded hover:opacity-90 transition"
-              >
-                <FaListUl />
-                Đọc mới nhất
-              </button>
-
-              <button className="flex items-center cursor-pointer gap-2 px-5 py-2 bg-green-400 text-white rounded hover:opacity-90 transition">
-                <FaBookmark />
-                Theo dõi
-              </button>
-
-              <button className="flex items-center cursor-pointer gap-2 px-5 py-2 bg-pink-400 text-white rounded hover:opacity-90 transition">
-                <FiThumbsUp />
-                Thích
-              </button>
-            </div>
+            <ActionButton chapters={chapters} storyId={storySlug._id} />
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import { FiX } from "react-icons/fi";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../redux/Auth/authSlice";
+import { register } from "../../redux/Auth/authThunk";
 import type { AppDispatch, RootState } from "../../redux/store";
 type FormRegisterProps = {
   onClose: () => void;

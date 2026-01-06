@@ -1,6 +1,6 @@
 import { FiX } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/Auth/authSlice";
+import { login } from "../../redux/Auth/authThunk";
 import type { AppDispatch, RootState } from "../../redux/store";
 import React, { useState } from "react";
 type FormLoginProps = {

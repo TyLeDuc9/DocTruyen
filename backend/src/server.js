@@ -12,8 +12,12 @@ const categoryRoute = require('./routes/categoryRoute')
 const storyRoute = require('./routes/storyRoute')
 const chapterRoute = require('./routes/chapterRoute')
 const authRoute = require('./routes/authRoute')
+const followRoute = require('./routes/followRoute')
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173", // frontend origin
+    credentials: true,               // cho phép gửi cookie
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -21,6 +25,7 @@ app.use('/api/category', categoryRoute)
 app.use('/api/story', storyRoute)
 app.use('/api/chapter', chapterRoute)
 app.use('/api/auth', authRoute)
+app.use('/api/follow', followRoute)
 
 connectDB().then(() => {
     app.listen(PORT, () => {
