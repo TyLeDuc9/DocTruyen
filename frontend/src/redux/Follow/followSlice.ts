@@ -1,17 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { Follow } from "../../types/followType";
-import { createFollow, getFollowMe, deleteFollow } from "./followThunk";
+import {
+  createFollow,
+  getFollowMe,
+  deleteFollow,
+  getCountFollow,
+} from "./followThunk";
 
 interface FollowState {
   follows: Follow[];
   loading: boolean;
   error: string | null;
+  countFollow: number;
 }
 
 const initialState: FollowState = {
   follows: [],
   loading: false,
   error: null,
+  countFollow: 0,
 };
 
 const followSlice = createSlice({
@@ -25,6 +32,18 @@ const followSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // =====GET COUNT FOLLOW =====
+      .addCase(getCountFollow.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCountFollow.fulfilled, (state, action) => {
+        state.countFollow = action.payload.totalFollows;
+      })
+      .addCase(getCountFollow.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       // ===== GET FOLLOW ME =====
       .addCase(getFollowMe.pending, (state) => {
         state.loading = true;

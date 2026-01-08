@@ -4,8 +4,31 @@ import type {
   FollowCreateRequest,
   FollowMeResponse,
   FollowDeleteResponse,
+  CountFollowStory
 } from "../../types/followType";
-import { createFollowApi, getFollowMeApi, deleteFollowApi } from "./followApi";
+import { createFollowApi, getFollowMeApi, deleteFollowApi ,getCountFollowStoryApi} from "./followApi";
+
+
+export const getCountFollow = createAsyncThunk<
+  CountFollowStory,     
+  string,                
+  { rejectValue: string }  
+>(
+  "follow/count",
+  async (storyId, { rejectWithValue }) => {
+    try {
+      return await getCountFollowStoryApi(storyId);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Get follow count failed"
+        );
+      }
+      return rejectWithValue("Get favorite count failed");
+    }
+  }
+);
+
 export const deleteFollow = createAsyncThunk<
   FollowDeleteResponse,
   string,

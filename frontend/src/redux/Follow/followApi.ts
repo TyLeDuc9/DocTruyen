@@ -3,8 +3,15 @@ import type {
   FollowCreateRequest,
   FollowMeResponse,
   FollowDeleteResponse,
+  CountFollowStory
 } from "../../types/followType";
 import axiosInstance from "../../utils/axiosInstance";
+
+export const getCountFollowStoryApi=async(storyId:string):Promise<CountFollowStory>=>{
+    const res=await axiosInstance.get(`/follow/count/${storyId}`)
+    return res.data
+}
+
 export const deleteFollowApi = async (
   storyId: string
 ): Promise<FollowDeleteResponse> => {

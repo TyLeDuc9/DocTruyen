@@ -9,11 +9,16 @@ import {
   FaBookOpen,
   FaPlus,
   FaInfoCircle,
+  FaHeart,
+  FaBookmark,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { Chapter } from "../Chapter/Chapter";
+import { getCount } from "../../redux/Favorite/favoriteThunk";
+import { getCountFollow } from "../../redux/Follow/followThunk";
 import { ActionButton } from "../../components/Button/ActionButton";
-
+import type { RootState, AppDispatch } from "../../redux/store";
 const statusMap: Record<string, string> = {
   ONGOING: "Đang cập nhật",
   COMPLETED: "Hoàn thành",
@@ -30,8 +35,18 @@ export const SlugStory = () => {
     error: errorChapter,
   } = useChapterStorySlug(slug!);
 
-  const [active, setActive] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { count } = useSelector((state: RootState) => state.favorite);
+  const { countFollow } = useSelector((state: RootState) => state.follow);
 
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    if (storySlug?._id) {
+      dispatch(getCount(storySlug._id));
+      dispatch(getCountFollow(storySlug._id))
+    }
+
+  }, [storySlug?._id, dispatch]);
   if (loading || loadingChapter)
     return <p className="text-center my-8">Đang tải truyện...</p>;
   if (error || errorChapter)
@@ -100,6 +115,18 @@ export const SlugStory = () => {
                 <FaBookOpen className="text-gray-500" />
                 <span className="font-medium">Số chương:</span>
                 <span className=" ">{storySlug.totalChapters}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <FaHeart className="text-gray-500" />
+                <span className="font-medium">Lượt thích:</span>
+                <span>{count}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <FaBookmark className="text-gray-500" />
+                <span className="font-medium">Lượt theo dõi:</span>
+                <span>{countFollow}</span>
               </div>
             </div>
 

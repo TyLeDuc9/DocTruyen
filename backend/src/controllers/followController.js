@@ -1,6 +1,29 @@
 const Follow = require('../models/Follow')
 const Story = require("../models/Story")
 const User = require('../models/User')
+exports.countFollowByStory = async (req, res) => {
+  try {
+    const { storyId } = req.params;
+
+    if (!storyId) {
+      return res.status(400).json({
+        message: "Thiếu storyId",
+      });
+    }
+
+    const count = await Follow.countDocuments({ storyId });
+
+    res.status(200).json({
+      storyId,
+      totalFollows: count,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Lỗi server",
+    });
+  }
+};  
 exports.deleteFollow = async (req, res) => {
   try {
     const userId = req.user._id;
