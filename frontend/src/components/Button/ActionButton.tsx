@@ -1,25 +1,60 @@
-import React from "react";
-import { FaPlay, FaListUl, FaBookmark } from "react-icons/fa";
-import { FiThumbsUp } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FaPlay, FaListUl, FaBookmark ,FaHeart} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createFollow, deleteFollow } from "../../redux/Follow/followThunk";
+import {
+  createFollow,
+  deleteFollow,
+  getFollowMe,
+} from "../../redux/Follow/followThunk";
 import type { RootState, AppDispatch } from "../../redux/store";
+import {
+  getFavoriteMe,
+  createFavorite,
+  deleteFavorite,
+} from "../../redux/Favorite/favoriteThunk";
 interface ActionButtonProps {
   chapters: { slug: string }[];
   storyId: string;
 }
+
 export const ActionButton: React.FC<ActionButtonProps> = ({
   chapters,
   storyId,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
   const { user } = useSelector((state: RootState) => state.auth);
+
   const isFollowed = useSelector((state: RootState) =>
     state.follow.follows.some((follow) => follow.storyId._id === storyId)
   );
+  const isFavorite = useSelector((state: RootState) =>
+    state.favorite.favorites.some(
+      (favorite) => favorite.storyId._id === storyId
+    )
+  );
+  useEffect(() => {
+    if (user) {
+      dispatch(getFollowMe());
+      dispatch(getFavoriteMe());
+    }
+  }, [user, dispatch]);
 
+  const handleFavorite = () => {
+    if (!user) {
+      alert("Bạn cần đăng nhập để like truyện");
+      return;
+    }
+
+    if (isFavorite) {
+      dispatch(deleteFavorite(storyId));
+    
+    } else {
+      dispatch(createFavorite({ storyId }));
+    }
+  };
 
   const handleFollow = () => {
     if (!user) {
@@ -45,38 +80,65 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
     navigate(`/chapter/detail/${latestChapter.slug}`);
   };
   return (
-    <div className="flex gap-4 mt-6 flex-wrap">
+    <div className="flex flex-wrap gap-4 mt-6">
+      {/* Đọc từ đầu */}
       <button
         onClick={handleFirstChapter}
-        className="flex items-center cursor-pointer gap-2 px-5 py-2 bg-blue-400 text-white rounded hover:opacity-90 transition"
+        className="flex items-center gap-2 px-6 py-2.5 rounded-sm cursor-pointer
+      bg-blue-500 text-white  
+      shadow-md hover:bg-blue-600  transition-all duration-200"
       >
-        <FaPlay />
-        Đọc từ đầu
+        <FaPlay className="text-sm" />
+        <span className="font-medium">Đọc từ đầu</span>
       </button>
 
+      {/* Đọc mới nhất */}
       <button
         onClick={handleNewChapter}
-        className="flex items-center cursor-pointer gap-2 px-5 py-2  bg-green-400 text-white rounded hover:opacity-90 transition"
+        className="flex items-center gap-2 px-6 py-2.5 rounded-sm cursor-pointer
+      bg-green-500 text-white  
+      shadow-md hover:bg-green-600  transition-all duration-200"
       >
-        <FaListUl />
-        Đọc mới nhất
+        <FaListUl className="text-sm" />
+        <span className="font-medium">Đọc mới nhất</span>
       </button>
 
+      {/* Theo dõi */}
       <button
         onClick={handleFollow}
-        className="flex items-center gap-2 px-5 py-2 bg-red-400 text-white rounded hover:opacity-90 transition"
+        className={`flex items-center gap-2 px-6 py-2.5  
+      shadow-md  transition-all duration-200 text-white rounded-sm cursor-pointer
+      ${
+        isFollowed
+          ? "bg-yellow-400 text-gray-800 hover:bg-yellow-500"
+          : "bg-red-500 text-white hover:bg-red-600"
+      }`}
       >
         <FaBookmark
-          className={`${
-            isFollowed ? "text-red-500" : "text-yellow-400 hover:text-red-400"
-          }`}
+          className={`text-base ${isFollowed ? "text-red-500" : "text-white"}`}
         />
-        {isFollowed ? "Đã theo dõi" : "Theo dõi"}
+        <span className="font-medium">
+          {isFollowed ? "Đã theo dõi" : "Theo dõi"}
+        </span>
       </button>
 
-      <button className="flex items-center cursor-pointer gap-2 px-5 py-2 bg-pink-400 text-white rounded hover:opacity-90 transition">
-        <FiThumbsUp />
-        Thích
+      {/* Yêu thích */}
+      <button
+        onClick={handleFavorite}
+        className={`flex items-center gap-2 px-6 py-2.5  
+      shadow-md  transition-all duration-200 rounded-sm cursor-pointer
+      ${
+        isFavorite
+          ? "bg-pink-500 text-white hover:bg-pink-600"
+          : "bg-pink-400 text-white hover:bg-pink-500"
+      }`}
+      >
+        <FaHeart
+          className={`text-base transition-transform duration-200 ${
+            isFavorite ? "scale-110" : ""
+          }`}
+        />
+        <span className="font-medium">{isFavorite ? "Đã thích" : "Thích"}</span>
       </button>
     </div>
   );

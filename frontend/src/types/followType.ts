@@ -1,3 +1,8 @@
+export type CountFollowStory={
+  storyId:string,
+  totalFollows:number
+}
+
 export type FollowDeleteResponse = {
   message: string;
   storyId: string;

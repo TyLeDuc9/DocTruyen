@@ -13,7 +13,7 @@ const storyRoute = require('./routes/storyRoute')
 const chapterRoute = require('./routes/chapterRoute')
 const authRoute = require('./routes/authRoute')
 const followRoute = require('./routes/followRoute')
-
+const favoriteRoute=require('./routes/favoriteRoute')
 app.use(cors({
     origin: "http://localhost:5173", // frontend origin
     credentials: true,               // cho phép gửi cookie
@@ -26,6 +26,7 @@ app.use('/api/story', storyRoute)
 app.use('/api/chapter', chapterRoute)
 app.use('/api/auth', authRoute)
 app.use('/api/follow', followRoute)
+app.use('/api/favorite', favoriteRoute)
 
 connectDB().then(() => {
     app.listen(PORT, () => {
