@@ -11,7 +11,9 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : null,
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!)
+    : null,
   accessToken: localStorage.getItem("accessToken"),
   loading: false,
   error: null,
@@ -29,20 +31,41 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // LOGIN
-      .addCase(login.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
+        const rawUser = action.payload.user;
+        const { id, ...rest } = rawUser;
+        const mappedUser: User = {
+          ...rest,
+          _id: rawUser._id || id!,
+        };
+    
+        state.user = mappedUser;
         state.accessToken = action.payload.accessToken;
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        localStorage.setItem("user", JSON.stringify(mappedUser));
         localStorage.setItem("accessToken", action.payload.accessToken);
       })
-      .addCase(login.rejected, (state, action) => { state.loading = false; state.error = action.payload as string; })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
 
       // REGISTER
-      .addCase(register.pending, (state) => { state.loading = true; })
-      .addCase(register.fulfilled, (state) => { state.loading = false; state.error = null; })
-      .addCase(register.rejected, (state, action) => { state.loading = false; state.error = action.payload as string; })
+      .addCase(register.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
 
       // LOGOUT
       .addCase(logout.fulfilled, (state) => {

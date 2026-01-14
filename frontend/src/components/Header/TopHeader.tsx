@@ -1,18 +1,27 @@
 import logo from "../../assets/logo/logo.png";
 import { FiSearch } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState , AppDispatch} from "../../redux/store";
 import { BsLightbulb } from "react-icons/bs";
-import { FiBell, FiUser } from "react-icons/fi";
-import { useState } from "react";
+import { FiBell } from "react-icons/fi";
+import { useEffect, useState } from "react";
 import { FormRegister } from "../Form/FormRegister";
 import { FormLogin } from "../Form/FormLogin";
 import { UserNavbar } from "../Navbar/UserNavbar";
-
+import avatarDefault from "../../assets/logo/avatar.jpg";
+import { getMeUser } from "../../redux/User/userThunk";
 export const TopHeader = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const [openNavbar, setOpenNavbar] = useState(false);
+  const { userProfile } = useSelector((state: RootState) => state.user);
 
+  useEffect(() => {
+  if (user && !userProfile) {
+    dispatch(getMeUser());
+  }
+}, [user, userProfile, dispatch]);
+  
   type AuthFormType = "login" | "register" | null;
   const buttonClass =
     "p-3 rounded-full border border-[#236288] text-[#236288] hover:bg-[#236288] hover:text-white transition cursor-pointer";
@@ -69,9 +78,13 @@ export const TopHeader = () => {
             <div className="relative">
               <button
                 onClick={() => setOpenNavbar((prev) => !prev)}
-                className={buttonClass}
+                className="cursor-pointer"
               >
-                <FiUser size={20} />
+                <img
+                  src={userProfile?.avatarUrl || avatarDefault}
+                  alt="avatar"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
               </button>
 
               {openNavbar && <UserNavbar />}

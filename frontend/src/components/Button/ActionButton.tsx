@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FaPlay, FaListUl, FaBookmark ,FaHeart} from "react-icons/fa";
+import { FaPlay, FaListUl, FaBookmark, FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -28,11 +28,12 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   const { user } = useSelector((state: RootState) => state.auth);
 
   const isFollowed = useSelector((state: RootState) =>
-    state.follow.follows.some((follow) => follow.storyId._id === storyId)
+    state.follow.follows.some((follow) => follow.storyId?._id === storyId)
   );
+
   const isFavorite = useSelector((state: RootState) =>
     state.favorite.favorites.some(
-      (favorite) => favorite.storyId._id === storyId
+      (favorite) => favorite.storyId?._id === storyId
     )
   );
   useEffect(() => {
@@ -50,7 +51,6 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 
     if (isFavorite) {
       dispatch(deleteFavorite(storyId));
-    
     } else {
       dispatch(createFavorite({ storyId }));
     }
@@ -110,8 +110,8 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
       shadow-md  transition-all duration-200 text-white rounded-sm cursor-pointer
       ${
         isFollowed
-          ? "bg-yellow-400 text-gray-800 hover:bg-yellow-500"
-          : "bg-red-500 text-white hover:bg-red-600"
+          ? " text-gray-800 bg-black "
+          : "bg-black"
       }`}
       >
         <FaBookmark

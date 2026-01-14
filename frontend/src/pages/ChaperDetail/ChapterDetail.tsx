@@ -4,6 +4,8 @@ import { FaBug, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
 import { useChapterDetail } from "../../hooks/useChapterDetail";
 import { ChapterToolbar } from "../../components/ChapterToolbar/ChapterToolbar";
+import { CommentChapter } from "../../components/CommentChapter/CommentChapter";
+import { CommentChapterList } from "../../components/CommentChapter/CommentChapterList";
 export const ChapterDetail = () => {
   const { chapterSlug } = useParams<{ chapterSlug: string }>();
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ export const ChapterDetail = () => {
     <div className="bg-gray-950 min-h-screen">
       <div className="container">
         <div className="pt-8">
-          <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm roun  ded-lg">
+          <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm rounded-lg">
             <Link to="/" className="hover:text-[#236288]">
               Trang chủ
             </Link>
@@ -176,18 +178,27 @@ export const ChapterDetail = () => {
               <Link to={`/chapter/detail/${chapterDetail?.slug}`}>
                 Chương {chapterDetail?.displayNumber}
               </Link>
+              {chapterDetail && (
+                <>
+                  <CommentChapter chapterId={chapterDetail._id} />
+                  <CommentChapterList chapterId={chapterDetail._id} />
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <ChapterToolbar
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-        chapters={chapters}
-        currentSlug={chapterDetail?.slug}
-        prevChapter={prevChapter}
-        nextChapter={nextChapter}
-      />
+      {story && (
+        <ChapterToolbar
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+          chapters={chapters}
+          currentSlug={chapterDetail?.slug}
+          prevChapter={prevChapter}
+          nextChapter={nextChapter}
+          storyId={story._id}
+        />
+      )}
     </div>
   );
 };

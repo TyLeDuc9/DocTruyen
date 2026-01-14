@@ -6,6 +6,7 @@ import { AllStory } from "../pages/AllStory/AllStory";
 import { SlugStory } from "../pages/SlugStory/SlugStory";
 import { ChapterDetail } from "../pages/ChaperDetail/ChapterDetail";
 import { Follow } from "../pages/Follow/Follow";
+import { Profile } from "../pages/Profile/Profile";
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -16,6 +17,7 @@ export const AppRoutes = () => {
         <Route path="manga/:slug" element={<SlugStory/>}/>
         <Route path="/chapter/detail/:chapterSlug" element={<ChapterDetail/>}/>
         <Route path="follow" element={<Follow/>}/>
+        <Route path="profile" element={<Profile/>}/>
       </Route>
     </Routes>
   );
