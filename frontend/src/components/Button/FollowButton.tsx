@@ -30,11 +30,11 @@ export const FollowButton: React.FC<FollowButtonProps> = ({ storyId }) => {
   return (
     <button
       onClick={handleFollow}
-      className="absolute top-1 right-1 bg-white/80 p-1 cursor-pointer rounded-sm transition"
+      className="absolute top-1 right-1 bg-white/80 p-1 cursor-pointer rounded-sm transition-all duration-300 ease-in-out"
     >
       <FaBookmark
         className={`${
-          isFollowed ? "text-red-500" : "text-yellow-400 hover:text-red-400"
+          isFollowed ? "text-red-500" : "text-yellow-400 hover:text-yellow-400/50"
         }`}
       />
     </button>

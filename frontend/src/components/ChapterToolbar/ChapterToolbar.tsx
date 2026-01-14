@@ -6,7 +6,9 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import type { Chapter } from "../../types/chapterType";
-
+import { useDispatch, useSelector } from "react-redux";
+import { createFollow, deleteFollow } from "../../redux/Follow/followThunk";
+import type { RootState, AppDispatch } from "../../redux/store";
 type ChapterToolbarProps = {
   handlePrev: () => void;
   handleNext: () => void;
@@ -14,6 +16,7 @@ type ChapterToolbarProps = {
   currentSlug?: string;
   prevChapter: Chapter | null;
   nextChapter: Chapter | null;
+  storyId: string;
 };
 
 export const ChapterToolbar = ({
@@ -23,9 +26,25 @@ export const ChapterToolbar = ({
   currentSlug,
   nextChapter,
   prevChapter,
+  storyId,
 }: ChapterToolbarProps) => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const isFollowed = useSelector((state: RootState) =>
+    state.follow.follows.some((follow) => follow.storyId._id === storyId)
+  );
+  const handleFollow = () => {
+    if (!user) {
+      alert("Bạn cần đăng nhập để theo dõi truyện");
+      return;
+    }
+    if (isFollowed) {
+      dispatch(deleteFollow(storyId));
+    } else {
+      dispatch(createFollow({ storyId }));
+    }
+  };
   const handleChangeChapter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const slug = e.target.value;
     if (slug) {
@@ -87,9 +106,16 @@ export const ChapterToolbar = ({
         </button>
 
         {/* Follow */}
-        <button className="flex items-center gap-1 bg-white px-2 py-1 rounded-sm text-black">
-          <FaBookmark />
-          Theo dõi
+        <button
+          onClick={handleFollow}
+          className="flex items-center gap-1 bg-white px-2 py-1 rounded-sm text-black cursor-pointer"
+        >
+          <FaBookmark
+            className={`${
+              isFollowed ? "text-red-500" : "text-yellow-400"
+            }`}
+          />
+          {isFollowed?"Đã theo dõi":'Theo dõi'}
         </button>
       </div>
     </div>

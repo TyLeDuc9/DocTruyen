@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useStorySlug } from "../../hooks/useStorySlug";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
+import { Comment } from "../../components/Comment/Comment";
 import {
   FaUser,
   FaEye,
@@ -19,6 +20,7 @@ import { getCount } from "../../redux/Favorite/favoriteThunk";
 import { getCountFollow } from "../../redux/Follow/followThunk";
 import { ActionButton } from "../../components/Button/ActionButton";
 import type { RootState, AppDispatch } from "../../redux/store";
+import { CommentList } from "../../components/Comment/CommentList";
 const statusMap: Record<string, string> = {
   ONGOING: "Đang cập nhật",
   COMPLETED: "Hoàn thành",
@@ -43,9 +45,8 @@ export const SlugStory = () => {
   useEffect(() => {
     if (storySlug?._id) {
       dispatch(getCount(storySlug._id));
-      dispatch(getCountFollow(storySlug._id))
+      dispatch(getCountFollow(storySlug._id));
     }
-
   }, [storySlug?._id, dispatch]);
   if (loading || loadingChapter)
     return <p className="text-center my-8">Đang tải truyện...</p>;
@@ -63,7 +64,7 @@ export const SlugStory = () => {
         <span className="font-medium">{storySlug.name}</span>
       </div>
 
-      <div className="bg-white p-6 rounded shadow">
+      <div className="bg-white p-6 rounded shadow my-8">
         <div className="flex gap-6">
           <img
             src={storySlug.thumbnail}
@@ -169,6 +170,8 @@ export const SlugStory = () => {
           </button>
         </div>
         <Chapter />
+        <Comment storyId={storySlug._id} />
+        <CommentList storyId={storySlug._id}/>
       </div>
     </div>
   );

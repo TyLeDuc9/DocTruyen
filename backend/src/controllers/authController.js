@@ -42,7 +42,6 @@ exports.refreshToken = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log("BODY:", req.body);
 
         if (!email || !password) {
             return res.status(400).json({ message: "Email and password are required" });
@@ -93,6 +92,7 @@ exports.login = async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: ACCESS_TOKEN_TTL }
         );
+        console.log(accessToken);
 
         const refreshToken = crypto.randomBytes(40).toString("hex");
         const hashedRefreshToken = crypto

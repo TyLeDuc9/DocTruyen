@@ -1,6 +1,7 @@
 import { FiX } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/Auth/authThunk";
+import { setUser } from '../../redux/User/userSlice';
 import type { AppDispatch, RootState } from "../../redux/store";
 import React, { useState } from "react";
 type FormLoginProps = {
@@ -26,11 +27,13 @@ export const FormLogin = ({ onClose, onSwitchToRegister }: FormLoginProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.email || !formData.password) return;
-    const result = await dispatch(login(formData));
-    if (login.fulfilled.match(result)) {
+    try {
+      const result = await dispatch(login(formData)).unwrap();
+      dispatch(setUser(result.user)); 
       setFormData({ email: "", password: "" });
-      alert("Login successfull");
-      onClose()
+      onClose();
+    } catch (err) {
+      console.log("Login thất bại:", err);
     }
   };
   const btnClass =

@@ -14,6 +14,8 @@ const chapterRoute = require('./routes/chapterRoute')
 const authRoute = require('./routes/authRoute')
 const followRoute = require('./routes/followRoute')
 const favoriteRoute=require('./routes/favoriteRoute')
+const commentRoute=require('./routes/commentRoute')
+const userRoute=require('./routes/userRoute')
 app.use(cors({
     origin: "http://localhost:5173", // frontend origin
     credentials: true,               // cho phép gửi cookie
@@ -27,6 +29,8 @@ app.use('/api/chapter', chapterRoute)
 app.use('/api/auth', authRoute)
 app.use('/api/follow', followRoute)
 app.use('/api/favorite', favoriteRoute)
+app.use('/api/comment', commentRoute)
+app.use('/api/user', userRoute)
 
 connectDB().then(() => {
     app.listen(PORT, () => {

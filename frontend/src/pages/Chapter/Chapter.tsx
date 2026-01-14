@@ -11,7 +11,7 @@ export const Chapter = () => {
 
   return (
     <div className="mt-8">
-      <h2 className="flex items-center my-2 text-lg font-semibold text-main">
+      <h2 className="flex items-center gap-2  my-2 text-lg font-semibold text-main">
         <FaBook />
         Danh sách chương
       </h2>

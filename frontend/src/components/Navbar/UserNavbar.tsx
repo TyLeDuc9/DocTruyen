@@ -1,17 +1,12 @@
 import { FiBookmark, FiUser, FiLogOut } from "react-icons/fi";
-import { logout } from "../../redux/Auth/authThunk";
-import type { AppDispatch, RootState } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
+
 export const UserNavbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
-  };
+  const {loading , error,handleLogout }=useLogout()
+ 
 
   if (loading) return <div>Đang tải...</div>;
   if (error) return <div>Lỗi tải</div>;
@@ -38,7 +33,7 @@ export const UserNavbar = () => {
   ];
 
   return (
-    <div className="absolute right-0 mt-2 w-48 bg-main shadow-lg rounded-md z-50">
+    <div className="absolute right-0  w-48 bg-main shadow-lg rounded-md z-50">
       <ul className="py-2">
         {userNavbar.map((item) => (
           <li
