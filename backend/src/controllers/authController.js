@@ -5,39 +5,71 @@ const crypto = require('crypto')
 const Session = require('../models/Session');
 const ACCESS_TOKEN_TTL = '30m'
 const REFRESH_TOKEN_TTL = 14 * 24 * 60 * 60 * 1000
+exports.changePassword = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        console.log("REQ USER:", req.user);
+        const { oldPassword, newPassword } = req.body;
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: "Missing password fields" });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: "New password must be at least 6 characters" });
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Old password is incorrect" });
+        }
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedNewPassword;
+        await user.save();
+        await Session.deleteMany({ userId });
+        res.clearCookie("refreshToken");
+        return res.json({ message: "Password changed successfully. Please login again." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
 exports.refreshToken = async (req, res) => {
-  try {
-    const refreshToken = req.cookies?.refreshToken;
-    if (!refreshToken) {
-      return res.status(401).json({ message: "Refresh token not found" });
+    try {
+        const refreshToken = req.cookies?.refreshToken;
+        if (!refreshToken) {
+            return res.status(401).json({ message: "Refresh token not found" });
+        }
+
+        const hashed = crypto
+            .createHash("sha256")
+            .update(refreshToken)
+            .digest("hex");
+
+        const session = await Session.findOne({ refreshToken: hashed });
+        if (!session || session.expiresAt < new Date()) {
+            if (session) await session.deleteOne();
+            return res.status(401).json({ message: "Refresh token expired" });
+        }
+
+        const user = await User.findById(session.userId);
+        if (!user || user.isBlocked) {
+            return res.status(403).json({ message: "User not allowed" });
+        }
+
+        const newAccessToken = jwt.sign(
+            { userId: user._id, role: user.role },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "30m" }
+        );
+
+        return res.json({ accessToken: newAccessToken });
+    } catch {
+        return res.status(500).json({ message: "Server error" });
     }
-
-    const hashed = crypto
-      .createHash("sha256")
-      .update(refreshToken)
-      .digest("hex");
-
-    const session = await Session.findOne({ refreshToken: hashed });
-    if (!session || session.expiresAt < new Date()) {
-      if (session) await session.deleteOne();
-      return res.status(401).json({ message: "Refresh token expired" });
-    }
-
-    const user = await User.findById(session.userId);
-    if (!user || user.isBlocked) {
-      return res.status(403).json({ message: "User not allowed" });
-    }
-
-    const newAccessToken = jwt.sign(
-      { userId: user._id, role: user.role },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30m" }
-    );
-
-    return res.json({ accessToken: newAccessToken });
-  } catch {
-    return res.status(500).json({ message: "Server error" });
-  }
 };
 exports.register = async (req, res) => {
     try {

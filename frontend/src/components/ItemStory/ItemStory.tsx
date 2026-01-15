@@ -22,7 +22,7 @@ export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
         </h3>
       </Link>
 
-      <span className="block mt-1 text-center text-[13px] font-medium hover:text-[#236288]">
+      <span className="block text-center text-[13px] font-medium hover:text-[#236288]">
         Chương {itemStory.totalChapters}
       </span>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+
 import logo from "../../assets/logo/logo.png";
 import { MdEmail } from "react-icons/md";
 

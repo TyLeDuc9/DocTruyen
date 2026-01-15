@@ -22,7 +22,7 @@ export const CommentList: React.FC<CommentProps> = ({ storyId }) => {
         <div key={comment._id} className="rounded-lg">
           <div className="flex items-start gap-2 pt-4">
             <img
-              src={comment.userId.avatarUrl || avatar}
+              src={comment.userId?.avatarUrl || avatar}
               alt={comment.userId.userName}
               className="w-10 h-10 rounded-full object-cover"
             />

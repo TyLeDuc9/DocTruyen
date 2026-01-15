@@ -1,7 +1,7 @@
 // src/redux/Auth/authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { User } from "../../types/userType";
-import { login, register, logout } from "./authThunk";
+import { login, register, logout, changePass } from "./authThunk";
 
 interface AuthState {
   user: User | null;
@@ -30,6 +30,22 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // CHANGE PASSWORD
+      .addCase(changePass.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changePass.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.accessToken = null;
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+      })
+      .addCase(changePass.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       // LOGIN
       .addCase(login.pending, (state) => {
         state.loading = true;
@@ -43,7 +59,7 @@ const authSlice = createSlice({
           ...rest,
           _id: rawUser._id || id!,
         };
-    
+
         state.user = mappedUser;
         state.accessToken = action.payload.accessToken;
         localStorage.setItem("user", JSON.stringify(mappedUser));
