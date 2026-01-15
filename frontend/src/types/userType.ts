@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 export type User = {
   _id: string;
   id?: string;
@@ -15,4 +16,13 @@ export type GetMeResponse = {
 export type UpdateUserResponse = {
   message: string;
   user: User;
+};
+export type MenuItem = {
+  id: number;
+  name: string;
+  icon: ReactNode;
+  to?: string;
+  external?: boolean;
+  url?: string;
+  action?: () => void;
 };

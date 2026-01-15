@@ -23,6 +23,16 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     const store = getStore();
 
+    const isAuthRoute =
+      originalRequest?.url?.includes("/auth/login") ||
+      originalRequest?.url?.includes("/auth/register") ||
+      originalRequest?.url?.includes("/auth/refresh-token");
+
+    // ❗ Nếu là auth route → không refresh
+    if (isAuthRoute) {
+      return Promise.reject(error);
+    }
+
     if (
       (error.response?.status === 401 || error.response?.status === 403) &&
       !originalRequest._retry
@@ -38,12 +48,15 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch {
-        store.dispatch({ type: "auth/logout/fulfilled" });
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+        window.location.href = "/login";
       }
     }
 
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;

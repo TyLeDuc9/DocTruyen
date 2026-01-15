@@ -1,32 +1,11 @@
 import React from "react";
 import { FaBookmark } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { createFollow, deleteFollow } from "../../redux/Follow/followThunk";
-import type { RootState, AppDispatch } from "../../redux/store";
+import { useFollowButton } from "../../hooks/useFollowStory";
 interface FollowButtonProps {
   storyId: string;
 }
-
 export const FollowButton: React.FC<FollowButtonProps> = ({ storyId }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
-
-  const isFollowed = useSelector((state: RootState) =>
-    state.follow.follows.some((follow) => follow.storyId._id === storyId)
-  );
-
-  const handleFollow = () => {
-    if (!user) {
-      alert("Bạn cần đăng nhập để theo dõi truyện");
-      return;
-    }
-    if (isFollowed) {
-      dispatch(deleteFollow(storyId));
-    } else {
-      dispatch(createFollow({ storyId }));
-    }
-  };
-
+  const { isFollowed, handleFollow } = useFollowButton(storyId);
   return (
     <button
       onClick={handleFollow}
