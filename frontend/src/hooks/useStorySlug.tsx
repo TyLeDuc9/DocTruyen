@@ -12,7 +12,6 @@ export const useStorySlug = (slug: string) => {
 
     const fetchStorySlug = async () => {
       setLoading(true);
-      setError(null);
       try {
         const res = await getStorySlug(slug);
         setStorySlug(res.data);

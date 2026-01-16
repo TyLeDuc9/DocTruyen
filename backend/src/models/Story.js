@@ -23,12 +23,9 @@ const storySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-
 storySchema.pre("save", function () {
   if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
   }
 });
-
 module.exports = mongoose.model("Story", storySchema);

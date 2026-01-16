@@ -4,14 +4,15 @@ import { useLogout } from "../../hooks/useLogout";
 
 export const UserNavbar = () => {
   const navigate = useNavigate();
-  const {loading ,handleLogout }=useLogout()
-  const menuItems=userNavbar(handleLogout).filter(item=>["Theo dõi", "Tài khoản", "Đăng xuất"].includes(item.name))
-
+  const { loading, handleLogout } = useLogout();
+  const menuItems = userNavbar(handleLogout).filter((item) =>
+    ["Theo dõi", "Tài khoản", "Lịch Sử Xem", "Đăng xuất"].includes(item.name)
+  );
 
   if (loading) return <div>Đang tải...</div>;
 
   return (
-    <div className="absolute right-0  w-48 bg-main shadow-lg rounded-md z-50">
+    <div className="absolute right-0 w-42 bg-main shadow-lg rounded-md z-50">
       <ul className="py-2">
         {menuItems.map((item) => (
           <li

@@ -1,16 +1,20 @@
 import type { Story } from "../../types/storyType";
 import { Link } from "react-router-dom";
 import { FollowButton } from "../Button/FollowButton";
+import { useSavedHistoryStory } from "../../hooks/useSavedHistoryStory";
 
 interface ItemStoryProps {
   itemStory: Story;
 }
 
 export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
+  const { handleSavedHistoryStory } = useSavedHistoryStory();
+
+
   return (
     <div className="w-44 relative">
       <FollowButton storyId={itemStory._id} />
-      <Link to={`/manga/${itemStory.slug}`}>
+      <Link to={`/manga/${itemStory.slug}`} onClick={()=>handleSavedHistoryStory(itemStory._id)}>
         <img
           src={itemStory.thumbnail}
           alt={itemStory.name}
