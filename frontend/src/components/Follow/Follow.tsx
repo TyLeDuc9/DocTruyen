@@ -5,11 +5,13 @@ import { getFollowMe } from "../../redux/Follow/followThunk";
 import { Link } from "react-router-dom";
 import { FollowButton } from "../../components/Button/FollowButton";
 import type { RootState, AppDispatch } from "../../redux/store";
+import { useSavedHistoryStory } from "../../hooks/useSavedHistoryStory";
 export const Follow: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { follows, loading, error } = useSelector(
     (state: RootState) => state.follow
   );
+  const {handleSavedHistoryStory}=useSavedHistoryStory()
 
   useEffect(() => {
     dispatch(getFollowMe());
@@ -24,13 +26,13 @@ export const Follow: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div className="text-red-400 font-medium uppercase items-center mb-4 text-xl flex">
-        <FaBookmark />
+      <div className="text-yellow-500 font-medium uppercase items-center mb-4 text-xl flex">
+        <FaBookmark className="mr-1"/>
         <h2>Truyện đang theo dõi</h2>
       </div>
       <div className="grid grid-cols-4 gap-4 my-4">
         {follows.map((item) => (
-          <div key={item.storyId._id} className="w-44 relative">
+          <div key={item.storyId._id} onClick={()=>handleSavedHistoryStory((item.storyId._id))} className="w-44 relative">
             <FollowButton storyId={item.storyId._id} />
             <Link to={`/manga/${item.storyId.slug}`}>
               <img

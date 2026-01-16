@@ -1,18 +1,17 @@
 import { userNavbar } from "../../config/userNavbar";
 import { useLogout } from "../../hooks/useLogout";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { handleMenuClick } from "../../utils/menuNavigate";
 export const MenuNavbar = () => {
   const { handleLogout } = useLogout();
   const location = useLocation();
   const menuItems = userNavbar(handleLogout);
-  const navigate=useNavigate()
-
+  const navigate = useNavigate();
 
   return (
     <div className="w-56 bg-main shadow-2xl rounded-xl h-72  overflow-hidden">
       <ul>
-        {menuItems.map((item, index) => {
+        {menuItems.map((item) => {
           const isActive = item.to && location.pathname === item.to;
 
           return (
@@ -26,11 +25,7 @@ export const MenuNavbar = () => {
                     ? "bg-yellow-400/90 text-white"
                     : "text-white hover:text-yellow-400"
                 }
-                ${
-                  index === menuItems.length - 1
-                    ? "border-t border-white/20"
-                    : ""
-                }
+                 
               `}
             >
               <span className="text-lg">{item.icon}</span>

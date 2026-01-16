@@ -10,6 +10,7 @@ import { FormChangePass } from "../components/Form/FormChangePass";
 import { User } from "../pages/User/User";
 import { FormInformation } from "../components/Form/FormInformation";
 import { PrivateRoute } from "./PrivateUserRoute";
+import { HistoryStory } from "../components/History/HistoryStory";
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -24,6 +25,7 @@ export const AppRoutes = () => {
             <Route path="profile" element={<FormInformation />} />
             <Route path="follow" element={<Follow />} />
             <Route path="change-password" element={<FormChangePass />} />
+            <Route path="history" element={<HistoryStory />} />
           </Route>
         </Route>
       </Route>

@@ -16,6 +16,7 @@ const followRoute = require('./routes/followRoute')
 const favoriteRoute=require('./routes/favoriteRoute')
 const commentRoute=require('./routes/commentRoute')
 const userRoute=require('./routes/userRoute')
+const readingHistoryRoute=require('./routes/readingHistoryRoute')
 app.use(cors({
     origin: "http://localhost:5173", // frontend origin
     credentials: true,               // cho phép gửi cookie
@@ -31,6 +32,8 @@ app.use('/api/follow', followRoute)
 app.use('/api/favorite', favoriteRoute)
 app.use('/api/comment', commentRoute)
 app.use('/api/user', userRoute)
+app.use('/api/reading-history', readingHistoryRoute)
+
 
 connectDB().then(() => {
     app.listen(PORT, () => {
