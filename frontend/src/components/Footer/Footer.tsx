@@ -4,7 +4,7 @@ import { MdEmail } from "react-icons/md";
 
 export const Footer = () => {
   return (
-    <footer className=" bg-gray-50">
+    <footer className=" bg-gray-50 mt-4">
 
       <hr className="border-0 h-4 bg-main" />
 

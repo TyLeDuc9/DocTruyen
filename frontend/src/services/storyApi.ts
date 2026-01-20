@@ -3,31 +3,53 @@ import { API } from "../config/api";
 import type {
   GetStoryListResponse,
   GetStoriesByCategoryResponse,
-  GetStoryBySlugResponse
+  GetStoryBySlugResponse,
 } from "../types/storyType";
 import type { GetStoryParams } from "../types/storyType";
 const API_STORY = `${API}/story`;
 
-export const getStorySlug=async(slug:string):Promise<GetStoryBySlugResponse>=>{
+export const getStorySlug = async (
+  slug: string,
+): Promise<GetStoryBySlugResponse> => {
   try {
-    const res=await axios.get<GetStoryBySlugResponse>(`${API_STORY}/${slug}`)
-    return res.data
-    
+    const res = await axios.get<GetStoryBySlugResponse>(`${API_STORY}/${slug}`);
+    return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       throw error.response?.data?.message || error.message;
     }
     throw new Error("Unknown error");
   }
-}
+};
+export const getTopDay = async (
+  params?: GetStoryParams,
+): Promise<GetStoriesByCategoryResponse> => {
+  const res = await axios.get(`${API}/story/top-day`, { params });
+  return res.data;
+};
+export const getTopWeek = async (
+  params?: GetStoryParams,
+): Promise<GetStoriesByCategoryResponse> => {
+  const res = await axios.get(`${API}/story/top-week`, { params });
+  return res.data;
+};
+export const getTopMonth = async (
+  params?: GetStoryParams,
+): Promise<GetStoriesByCategoryResponse> => {
+  const res = await axios.get(`${API}/story/top-month`, {
+    params,
+  });
+
+  return res.data;
+};
 
 export const getAllStory = async (
-  params?: GetStoryParams
+  params?: GetStoryParams,
 ): Promise<GetStoriesByCategoryResponse> => {
   try {
     const res = await axios.get<GetStoriesByCategoryResponse>(
       `${API_STORY}/all`,
-      { params }
+      { params },
     );
     return res.data;
   } catch (error: unknown) {
@@ -40,12 +62,12 @@ export const getAllStory = async (
 
 export const getCategorySlugStory = async (
   slug: string,
-  params?: GetStoryParams
+  params?: GetStoryParams,
 ): Promise<GetStoriesByCategoryResponse> => {
   try {
     const res = await axios.get<GetStoriesByCategoryResponse>(
       `${API_STORY}/category/${slug}`,
-      { params }
+      { params },
     );
     return res.data;
   } catch (error: unknown) {

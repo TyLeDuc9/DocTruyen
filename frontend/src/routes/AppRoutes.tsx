@@ -11,6 +11,10 @@ import { User } from "../pages/User/User";
 import { FormInformation } from "../components/Form/FormInformation";
 import { PrivateRoute } from "./PrivateUserRoute";
 import { HistoryStory } from "../components/History/HistoryStory";
+import { HistoryChapter } from "../components/History/HistoryChapter";
+import { TopMonth } from "../pages/TopMonth/TopMonth";
+import { TopWeek } from "../pages/TopWeek/TopWeek";
+import { TopDay } from "../pages/TopDay/TopDay";
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -20,12 +24,17 @@ export const AppRoutes = () => {
         <Route path="all" element={<AllStory />} />
         <Route path="manga/:slug" element={<SlugStory />} />
         <Route path="chapter/detail/:chapterSlug" element={<ChapterDetail />} />
+        <Route path="top-month" element={<TopMonth />} />
+        <Route path="top-week" element={<TopWeek />} />
+        <Route path="top-day" element={<TopDay />} />
+       
         <Route element={<PrivateRoute />}>
           <Route path="user" element={<User />}>
             <Route path="profile" element={<FormInformation />} />
             <Route path="follow" element={<Follow />} />
             <Route path="change-password" element={<FormChangePass />} />
-            <Route path="history" element={<HistoryStory />} />
+            <Route path="history/story" element={<HistoryStory />} />
+            <Route path="history/chapter" element={<HistoryChapter />} />
           </Route>
         </Route>
       </Route>

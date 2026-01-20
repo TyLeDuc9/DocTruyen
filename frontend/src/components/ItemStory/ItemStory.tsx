@@ -9,8 +9,6 @@ interface ItemStoryProps {
 
 export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
   const { handleSavedHistoryStory } = useSavedHistoryStory();
-
-
   return (
     <div className="w-44 relative">
       <FollowButton storyId={itemStory._id} />

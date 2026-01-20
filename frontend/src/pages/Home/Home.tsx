@@ -6,11 +6,11 @@ import { TopStory } from "../../components/TopStory/TopStory";
 import { CategoryStory } from "../../components/TopStory/CategoryStory";
 export const Home = () => {
   return (
-    <div className="container">
+    <div className="container my-8">
       <section className="flex text-red-400 font-medium uppercase items-center my-4 text-xl">
         <HiSparkles className="" />
         <h2>Truyện mới cập nhật</h2>
-      </section>
+      </section>   
       <LatestStory />
       <section className="flex text-yellow-400 font-medium uppercase items-center my-4 text-xl">
         <FaFire />
