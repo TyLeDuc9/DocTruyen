@@ -67,7 +67,6 @@ exports.getChaptersByStorySlug = async (req, res) => {
     });
   }
 };
-
 exports.createChapter = async (req, res) => {
   try {
     const {

@@ -1,14 +1,9 @@
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaBookmark,
-  FaHome,
-} from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaHome } from "react-icons/fa";
+import { FiBookOpen } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import type { Chapter } from "../../types/chapterType";
-import { useDispatch, useSelector } from "react-redux";
-import { createFollow, deleteFollow } from "../../redux/Follow/followThunk";
-import type { RootState, AppDispatch } from "../../redux/store";
+import { useSavedHistoryChapter } from "../../hooks/useSavedHistoryChapter";
+
 type ChapterToolbarProps = {
   handlePrev: () => void;
   handleNext: () => void;
@@ -17,6 +12,7 @@ type ChapterToolbarProps = {
   prevChapter: Chapter | null;
   nextChapter: Chapter | null;
   storyId: string;
+  chapterId?: string;
 };
 
 export const ChapterToolbar = ({
@@ -27,31 +23,21 @@ export const ChapterToolbar = ({
   nextChapter,
   prevChapter,
   storyId,
+  chapterId,
 }: ChapterToolbarProps) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
-  const isFollowed = useSelector((state: RootState) =>
-    state.follow.follows.some((follow) => follow.storyId._id === storyId)
+  const { error, saved, handleSavedChapterHistory } = useSavedHistoryChapter(
+    chapterId,
+    storyId,
   );
-  const handleFollow = () => {
-    if (!user) {
-      alert("Bạn cần đăng nhập để theo dõi truyện");
-      return;
-    }
-    if (isFollowed) {
-      dispatch(deleteFollow(storyId));
-    } else {
-      dispatch(createFollow({ storyId }));
-    }
-  };
+
+  const navigate = useNavigate();
   const handleChangeChapter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const slug = e.target.value;
     if (slug) {
       navigate(`/chapter/detail/${slug}`);
     }
   };
-
+  if (error) return <div>Lỗi tải thể loại</div>;
   return (
     <div className="fixed bottom-0 left-0 w-full bg-gray-950/70 text-white z-50">
       <div className="flex justify-center items-center py-2 gap-4">
@@ -107,15 +93,14 @@ export const ChapterToolbar = ({
 
         {/* Follow */}
         <button
-          onClick={handleFollow}
-          className="flex items-center gap-1 bg-white px-2 py-1 rounded-sm text-black cursor-pointer"
+          onClick={handleSavedChapterHistory}
+          className={`flex items-center gap-1 px-2 py-1 rounded-sm cursor-pointer
+          ${saved ? "bg-green-500 text-white" : "bg-white text-black"}
+
+  `}
         >
-          <FaBookmark
-            className={`${
-              isFollowed ? "text-red-500" : "text-yellow-400"
-            }`}
-          />
-          {isFollowed?"Đã theo dõi":'Theo dõi'}
+          <FiBookOpen className="mt-0.5" />
+          {saved ? "Đã lưu" : "Lưu"}
         </button>
       </div>
     </div>

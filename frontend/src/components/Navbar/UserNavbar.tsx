@@ -6,7 +6,13 @@ export const UserNavbar = () => {
   const navigate = useNavigate();
   const { loading, handleLogout } = useLogout();
   const menuItems = userNavbar(handleLogout).filter((item) =>
-    ["Theo dõi", "Tài khoản", "Lịch Sử Xem", "Đăng xuất"].includes(item.name)
+    [
+      "Theo dõi",
+      "Tài khoản",
+      "Lịch Sử Xem",
+      "Chap Đã Lưu",
+      "Đăng xuất",
+    ].includes(item.name),
   );
 
   if (loading) return <div>Đang tải...</div>;

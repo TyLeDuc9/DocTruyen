@@ -1,5 +1,130 @@
 const Story = require('../models/Story');
 const Category = require("../models/Category");
+exports.getTopDay = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 36;
+    const skip = (page - 1) * limit;
+
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1); 
+
+    const totalStories = await Story.countDocuments({
+      updatedAt: { $gte: oneDayAgo }
+    });
+
+    const story = await Story.find({
+      updatedAt: { $gte: oneDayAgo }
+    })
+      .sort({ views: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const totalPages = Math.ceil(totalStories / limit);
+
+    res.status(200).json({
+      message: "Success",
+      page,
+      limit,
+      totalPages,
+      totalStories,
+      story,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error",
+      error: error.message,
+    });
+  }
+};
+
+exports.getTopWeek = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 36;
+    const skip = (page - 1) * limit;
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const totalStories = await Story.countDocuments({
+      updatedAt: { $gte: oneWeekAgo }
+    });
+    const story = await Story.find({
+      updatedAt: { $gte: oneWeekAgo }
+    })
+      .sort({ views: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+    const totalPages = Math.ceil(totalStories / limit);
+    res.status(200).json({
+      message: "Success",
+      page,
+      limit,
+      totalPages,
+      totalStories,
+      story,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error",
+      error: error.message,
+    });
+  }
+};
+
+exports.getTopMonth = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 36;
+    const skip = (page - 1) * limit;
+
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    const totalStories = await Story.countDocuments({
+      updatedAt: { $gte: oneMonthAgo }
+    });
+
+    const story = await Story.find({
+      updatedAt: { $gte: oneMonthAgo }
+    })
+      .sort({ views: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const totalPages = Math.ceil(totalStories / limit);
+
+    res.status(200).json({
+      message: "Success",
+      page,
+      limit,
+      totalPages,
+      totalStories,
+      story,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error",
+      error: error.message,
+    });
+  }
+};
+
+
+exports.getLatestStory = async (req, res) => {
+  try {
+    const story = await Story.find().sort({ createdAt: -1 }).limit(10)
+    res.status(200).json({
+      message: "Successfully", story
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error', error: error.message })
+
+  }
+}
 exports.getStoryBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -130,18 +255,7 @@ exports.getRandomStory = async (req, res) => {
     });
   }
 };
-exports.getLatestStory = async (req, res) => {
-  try {
-    const story = await Story.find().sort({ createdAt: -1 }).limit(10)
-    res.status(200).json({
-      message: "Successfully", story
-    })
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error', error: error.message })
 
-  }
-}
 exports.createStory = async (req, res) => {
   try {
     const { name, alternateName, author, status, country, totalChapters, description, categoryId } = req.body;

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaBug, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
@@ -10,14 +9,14 @@ export const ChapterDetail = () => {
   const { chapterSlug } = useParams<{ chapterSlug: string }>();
   const navigate = useNavigate();
   const { chapterDetail, story, loading, error } = useChapterDetail(
-    chapterSlug!
+    chapterSlug!,
   );
   const { chapters, loading: loadingChapters } = useChapterStorySlug(
-    story?.slug || ""
+    story?.slug || "",
   );
 
   const currentIndex = chapters.findIndex(
-    (c) => c.slug === chapterDetail?.slug
+    (c) => c.slug === chapterDetail?.slug,
   );
 
   const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1] : null;
@@ -190,6 +189,7 @@ export const ChapterDetail = () => {
       </div>
       {story && (
         <ChapterToolbar
+          chapterId={chapterDetail?._id}
           handlePrev={handlePrev}
           handleNext={handleNext}
           chapters={chapters}

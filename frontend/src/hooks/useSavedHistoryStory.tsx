@@ -3,8 +3,11 @@ import { saveReadingHistory } from "../services/readingHistory";
 import type {
   ReadingHistoryRequest,
 } from "../types/readingHistoryType";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 
 export const useSavedHistoryStory = () => {
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,8 +22,11 @@ export const useSavedHistoryStory = () => {
       setLoading(false);
     }
   };
+
   const handleSavedHistoryStory = (storyId: string) => {
+    if (!user || !accessToken) return;
     saveHistory({ storyId });
   };
-  return { handleSavedHistoryStory, loading, error};
+
+  return { handleSavedHistoryStory, loading, error };
 };

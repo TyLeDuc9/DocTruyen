@@ -6,6 +6,7 @@ import {
   FiLock,
   FiBell,
   FiClock,
+  FiBookOpen 
 } from "react-icons/fi";
 import type { MenuItem } from "../types/userType";
 export const userNavbar = (handleLogout: () => void): MenuItem[] => [
@@ -25,7 +26,13 @@ export const userNavbar = (handleLogout: () => void): MenuItem[] => [
     id: 3,
     name: "Lịch Sử Xem",
     icon: <FiClock size={18} />,
-    to: "/user/history",
+    to: "/user/history/story",
+  },
+   {
+    id: 8,
+    name: "Chap Đã Lưu",
+    icon: <FiBookOpen  size={18} />,
+    to: "/user/history/chapter",
   },
   {
     id: 4,
