@@ -1,5 +1,71 @@
 const Story = require('../models/Story');
 const Category = require("../models/Category");
+exports.getStoryComplete = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 36;
+    const skip = (page - 1) * limit;
+
+    const totalStories = await Story.countDocuments({
+      status: "COMPLETED",
+    });
+
+    const story = await Story.find({
+      status: "COMPLETED",
+    })
+      .sort({ updatedAt: -1 }) 
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const totalPages = Math.ceil(totalStories / limit);
+
+    res.status(200).json({
+      message: "Success",
+      page,
+      limit,
+      totalPages,
+      totalStories,
+      story,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error",
+      error: error.message,
+    });
+  }
+};
+
+exports.getTopView = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 36;
+    const skip = (page - 1) * limit;
+    const totalStories = await Story.countDocuments();
+    const story = await Story.find()
+      .sort({ views: -1 }) 
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const totalPages = Math.ceil(totalStories / limit);
+
+    res.status(200).json({
+      message: "Success",
+      page,
+      limit,
+      totalPages,
+      totalStories,
+      story,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error",
+      error: error.message,
+    });
+  }
+};
+
 exports.getTopDay = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -112,7 +178,6 @@ exports.getTopMonth = async (req, res) => {
   }
 };
 
-
 exports.getLatestStory = async (req, res) => {
   try {
     const story = await Story.find().sort({ createdAt: -1 }).limit(10)
@@ -157,18 +222,22 @@ exports.getAllStories = async (req, res) => {
     const limit = Number(req.query.limit) || 36;
     const sortOrder = req.query.sort === "oldest" ? 1 : -1;
 
-    const country = req.query.country;
-    const status = req.query.status;
-    const categoryId = req.query.categoryId;
+    const { country, status, categoryId, keyword } = req.query;
 
-    // ===== FILTER =====
     const filter = {};
 
     if (country) filter.country = country;
     if (status) filter.status = status;
     if (categoryId) filter.categoryId = categoryId;
 
-    // ===== PAGINATION =====
+    // 🔍 Tìm theo name hoặc alternateName
+    if (keyword) {
+      filter.$or = [
+        { name: { $regex: keyword, $options: "i" } },
+        { alternateName: { $regex: keyword, $options: "i" } },
+      ];
+    }
+
     const skip = (page - 1) * limit;
 
     const stories = await Story.find(filter)
@@ -194,6 +263,7 @@ exports.getAllStories = async (req, res) => {
     });
   }
 };
+
 exports.getStoriesByCategorySlug = async (req, res) => {
   try {
     const { slug } = req.params;
