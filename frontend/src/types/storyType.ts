@@ -1,5 +1,5 @@
 import type { Category } from "./categoryType";
-export type StoryStatus ="UPCOMING"| "ONGOING"| "COMPLETED"| "DROPPED";
+export type StoryStatus = "UPCOMING" | "ONGOING" | "COMPLETED" | "DROPPED";
 export interface Story {
   _id: string;
   name: string;
@@ -12,7 +12,7 @@ export interface Story {
   country?: string;
   totalChapters: number;
   description?: string;
-  categoryId: Category[] | string[]; 
+  categoryId: Category[] | string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -42,5 +42,5 @@ export interface GetStoryParams {
   sort?: "newest" | "oldest";
   country?: string;
   status?: StoryStatus;
+  keyword?: string;
 }
-

@@ -7,6 +7,8 @@ router.get("/latest",  storyController.getLatestStory);
 router.get("/top-month", storyController.getTopMonth);
 router.get("/top-week", storyController.getTopWeek);
 router.get("/top-day", storyController.getTopDay);
+router.get("/complete", storyController.getStoryComplete);
+router.get("/top-view", storyController.getTopView);
 router.get("/random",  storyController.getRandomStory);
 router.get("/all",  storyController.getAllStories);
 router.get("/:slug", storyController.getStoryBySlug);

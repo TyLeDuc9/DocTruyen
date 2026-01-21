@@ -15,6 +15,9 @@ import { HistoryChapter } from "../components/History/HistoryChapter";
 import { TopMonth } from "../pages/TopMonth/TopMonth";
 import { TopWeek } from "../pages/TopWeek/TopWeek";
 import { TopDay } from "../pages/TopDay/TopDay";
+import { TopView } from "../pages/TopView/TopView";
+import { StoryComplete } from "../pages/StoryComplete/StoryComplete";
+import { SearchList } from "../pages/SearchList/SearchList";
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -27,6 +30,9 @@ export const AppRoutes = () => {
         <Route path="top-month" element={<TopMonth />} />
         <Route path="top-week" element={<TopWeek />} />
         <Route path="top-day" element={<TopDay />} />
+        <Route path="top-view" element={<TopView />} />
+        <Route path="completed" element={<StoryComplete />} />
+        <Route path="search" element={<SearchList />} />
        
         <Route element={<PrivateRoute />}>
           <Route path="user" element={<User />}>

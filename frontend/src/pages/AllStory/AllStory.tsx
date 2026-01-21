@@ -1,45 +1,18 @@
-import { useState } from "react";
-import { useNavigate,  useSearchParams } from "react-router-dom";
-import { useAllStory } from "../../hooks/useAllStory";
-import { useAllCategory } from "../../hooks/useAllCategory";
 import { ItemStory } from "../../components/ItemStory/ItemStory";
 import { PaginationStory } from "../../components/PaginationStory/PaginationStory";
 import { FilterStory } from "../../components/Filter/FilterStory";
-import type { GetStoryParams, StoryStatus } from "../../types/storyType";
+import { useAllStory } from "../../hooks/useAllStory";
+import { useAllCategory } from "../../hooks/useAllCategory";
 
 export const AllStory = () => {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const { categories } = useAllCategory();
-
-  const [filters, setFilters] = useState<GetStoryParams>({
-    page: Number(searchParams.get("page")) || 1,
-    limit: 36,
-    sort: (searchParams.get("sort") as "newest" | "oldest") || "newest",
-    status: searchParams.get("status") as StoryStatus | undefined,
-    country: searchParams.get("country") || undefined,
-  });
-
-  const updateURL = (newFilters: GetStoryParams) => {
-    const params: Record<string, string> = {};
-
-    if (newFilters.page) params.page = String(newFilters.page);
-    if (newFilters.sort) params.sort = newFilters.sort;
-    if (newFilters.status) params.status = newFilters.status;
-    if (newFilters.country) params.country = newFilters.country;
-
-    setSearchParams(params);
-  };
-  const { allStory, totalStories } = useAllStory({
-    params: filters,
-  });
-
-  const updateFilter = (data: Partial<GetStoryParams>) => {
-    const newFilters = { ...filters, ...data };
-    setFilters(newFilters);
-    updateURL(newFilters);
-  };
+  const {
+    allStory,
+    totalStories,
+    filters,
+    updateFilter,
+    navigate,
+  } = useAllStory();
 
   return (
     <div className="container">

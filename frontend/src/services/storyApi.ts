@@ -21,6 +21,14 @@ export const getStorySlug = async (
     throw new Error("Unknown error");
   }
 };
+export const getStoryComplete=async(params?:GetStoryParams):Promise<GetStoriesByCategoryResponse>=>{
+  const res=await axios.get(`${API}/story/complete`, {params})
+  return res.data
+}
+export const getTopView=async(params?:GetStoryParams):Promise<GetStoriesByCategoryResponse>=>{
+  const res=await axios.get(`${API}/story/top-view`, {params})
+  return res.data
+}
 export const getTopDay = async (
   params?: GetStoryParams,
 ): Promise<GetStoriesByCategoryResponse> => {
