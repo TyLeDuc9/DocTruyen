@@ -4,13 +4,15 @@ import { FaFire, FaTheaterMasks, FaUserSecret } from "react-icons/fa";
 import { LatestStory } from "../../components/TopStory/LatestStory";
 import { TopStory } from "../../components/TopStory/TopStory";
 import { CategoryStory } from "../../components/TopStory/CategoryStory";
+import { useLoadingEffect } from "../../hooks/useLoadingEffect";
 export const Home = () => {
+  useLoadingEffect(500);
   return (
     <div className="container my-8">
       <section className="flex text-red-400 font-medium uppercase items-center my-4 text-xl">
         <HiSparkles className="" />
         <h2>Truyện mới cập nhật</h2>
-      </section>   
+      </section>
       <LatestStory />
       <section className="flex text-yellow-400 font-medium uppercase items-center my-4 text-xl">
         <FaFire />
@@ -26,6 +28,7 @@ export const Home = () => {
         <FaUserSecret />
         <h2>Detective</h2>
       </section>
+      <CategoryStory slug="detective" />
       <section className="flex text-blue-400 font-medium uppercase items-center my-4 mb-4 text-xl">
         <FaFutbol />
         <h2>Thể thao</h2>

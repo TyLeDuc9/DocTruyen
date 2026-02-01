@@ -3,6 +3,7 @@ import { FaThumbsUp, FaThumbsDown, FaReply } from "react-icons/fa";
 import type { CommentWithUser } from "../../types/commentType";
 import { useReactComment} from "../../hooks/useReactComment";
 import { CommentReply } from "./CommentReply";
+
 interface CommentReactionProps {
   commentId: string;
   comment: CommentWithUser;

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useCategorySlugStory } from "../../hooks/useCategorySlugStory";
 import { ItemStory } from "../ItemStory/ItemStory";
-
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 interface CategoryStoryProps {
   slug: string;
 }
@@ -12,7 +13,11 @@ export const CategoryStory: React.FC<CategoryStoryProps> = ({ slug }) => {
     params: { page: 1, limit: 12, sort: "newest" },
   });
 
-  if (loading) return <div>Đang tải...</div>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   if (error) return <div>Lỗi tải thể loại</div>;
 
   return (

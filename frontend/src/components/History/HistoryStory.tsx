@@ -2,11 +2,16 @@ import { FiClock } from "react-icons/fi";
 import { useGetHistoryStory } from "../../hooks/useGetHistoryStory";
 import { FollowButton } from "../Button/FollowButton";
 import { Link } from "react-router-dom";
-
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
+import { useEffect } from "react";
 export const HistoryStory = () => {
   const { historyStory, loading, error } = useGetHistoryStory();
-
-  if (loading) return <p>Đang tải danh sách lịch sử...</p>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (

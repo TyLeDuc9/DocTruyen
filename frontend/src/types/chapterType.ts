@@ -14,6 +14,7 @@ export interface Chapter {
   storyId: string;
   createdAt: string;
   updatedAt: string;
+  isDeleted:boolean;
   __v?: number;
 }
 

@@ -2,7 +2,7 @@ import type { Story } from "../../types/storyType";
 import { Link } from "react-router-dom";
 import { FollowButton } from "../Button/FollowButton";
 import { useSavedHistoryStory } from "../../hooks/useSavedHistoryStory";
-
+import { ToastContainer } from "react-toastify";
 interface ItemStoryProps {
   itemStory: Story;
 }
@@ -12,7 +12,10 @@ export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
   return (
     <div className="w-44 relative">
       <FollowButton storyId={itemStory._id} />
-      <Link to={`/manga/${itemStory.slug}`} onClick={()=>handleSavedHistoryStory(itemStory._id)}>
+      <Link
+        to={`/manga/${itemStory.slug}`}
+        onClick={() => handleSavedHistoryStory(itemStory._id)}
+      >
         <img
           src={itemStory.thumbnail}
           alt={itemStory.name}
@@ -27,6 +30,14 @@ export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
       <span className="block text-center text-[13px] font-medium hover:text-[#236288]">
         Chương {itemStory.totalChapters}
       </span>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        toastStyle={{
+          fontSize: window.innerWidth < 768 ? "12px" : "16px",
+          minWidth: window.innerWidth < 768 ? "10px" : "50px",
+        }}
+      />
     </div>
   );
 };

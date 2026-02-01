@@ -13,13 +13,13 @@ const storyRoute = require('./routes/storyRoute')
 const chapterRoute = require('./routes/chapterRoute')
 const authRoute = require('./routes/authRoute')
 const followRoute = require('./routes/followRoute')
-const favoriteRoute=require('./routes/favoriteRoute')
-const commentRoute=require('./routes/commentRoute')
-const userRoute=require('./routes/userRoute')
-const readingHistoryRoute=require('./routes/readingHistoryRoute')
+const favoriteRoute = require('./routes/favoriteRoute')
+const commentRoute = require('./routes/commentRoute')
+const userRoute = require('./routes/userRoute')
+const readingHistoryRoute = require('./routes/readingHistoryRoute')
 app.use(cors({
-    origin: "http://localhost:5173", // frontend origin
-    credentials: true,               // cho phép gửi cookie
+    origin: ["http://localhost:5173", "http://localhost:5174"],
+    credentials: true,              
 }));
 app.use(express.json());
 app.use(cookieParser());

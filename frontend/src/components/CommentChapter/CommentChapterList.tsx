@@ -11,6 +11,8 @@ import { CommentChapterReaction } from "../CommentChapter/CommentChapterReaction
 import { CommentChapterReactionReply } from "../CommentChapter/CommentChapterReactionReply";
 import { CommentChapterReplyDelete } from "../CommentChapter/CommentChapterReplyDelete";
 import { CommentChapterDelete } from "../CommentChapter/CommentChapterDelete";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 interface CommentChapterProps {
   chapterId: string;
 }
@@ -22,7 +24,7 @@ export const CommentChapterList: React.FC<CommentChapterProps> = ({
   const [openReplies, setOpenReplies] = useState<string[]>([]);
 
   const { comments, loading, totalComments } = useSelector(
-    (state: RootState) => state.comment
+    (state: RootState) => state.comment,
   );
 
   const [filters, setFilters] = useState<GetCommentByChapterParams>({
@@ -39,7 +41,7 @@ export const CommentChapterList: React.FC<CommentChapterProps> = ({
     setOpenReplies((prev) =>
       prev.includes(commentId)
         ? prev.filter((id) => id !== commentId)
-        : [...prev, commentId]
+        : [...prev, commentId],
     );
   };
 
@@ -48,8 +50,11 @@ export const CommentChapterList: React.FC<CommentChapterProps> = ({
     if (newFilters.page) params.page = String(newFilters.page);
     setSearchParams(params);
   };
-
-  if (loading) return <p>Đang tải bình luận...</p>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   return (
     <div className="space-y-4">
       {comments.map((comment) => (
@@ -67,7 +72,7 @@ export const CommentChapterList: React.FC<CommentChapterProps> = ({
                 <span className="text-xs">
                   {new Date(comment.createdAt).toLocaleDateString("vi-VN")}
                 </span>
-                 <CommentChapterDelete comment={comment} />
+                <CommentChapterDelete comment={comment} />
               </div>
 
               <p className="mt-1 text-gray-700">{comment.content}</p>
@@ -105,7 +110,10 @@ export const CommentChapterList: React.FC<CommentChapterProps> = ({
                       <span className="font-semibold">
                         {reply.userId.userName || "Người dùng"}
                       </span>
-                      <CommentChapterReplyDelete comment={comment} reply={reply} />
+                      <CommentChapterReplyDelete
+                        comment={comment}
+                        reply={reply}
+                      />
                     </div>
 
                     <p className="mt-1 text-gray-700">{reply.content}</p>

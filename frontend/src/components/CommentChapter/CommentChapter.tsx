@@ -3,6 +3,7 @@ import { useSendCommentChapter } from "../../hooks/useSendCommentChapter";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useUpdateUserName } from "../../hooks/useUpdateUserName";
+import { ToastContainer } from "react-toastify";
 interface CommentChapterProps {
   chapterId: string;
 }
@@ -37,10 +38,9 @@ export const CommentChapter: React.FC<CommentChapterProps> = ({
             Lưu tên
           </button>
         </form>
-       
       )}
       {(!user || (userProfile?.userName && user)) && (
-         <form onSubmit={sendComment} className="flex flex-col gap-2">
+        <form onSubmit={sendComment} className="flex flex-col gap-2">
           <textarea
             className="w-full p-2 border border-gray-300 rounded-md resize-none focus:outline-none"
             rows={6}
@@ -57,6 +57,14 @@ export const CommentChapter: React.FC<CommentChapterProps> = ({
           </button>
         </form>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        toastStyle={{
+          fontSize: window.innerWidth < 768 ? "12px" : "16px",
+          minWidth: window.innerWidth < 768 ? "10px" : "50px",
+        }}
+      />
     </div>
   );
 };

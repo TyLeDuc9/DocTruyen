@@ -5,6 +5,7 @@ export interface Category {
   slug: string;
   createdAt?: string;
   updatedAt?: string;
+  isDeleted:boolean
 }
 export interface GetCategoryBySlugResponse {
   message: string;

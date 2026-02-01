@@ -4,6 +4,8 @@ import { PaginationStory } from "../../components/PaginationStory/PaginationStor
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { FaTrophy } from "react-icons/fa";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 export const TopMonth = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageFromUrl = Number(searchParams.get("page")) || 1;
@@ -12,7 +14,11 @@ export const TopMonth = () => {
   useEffect(() => {
     updateFilter({ page: pageFromUrl });
   }, [pageFromUrl]);
-  if (loading) return <p>Đang tải danh sách...</p>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
   return (
     <div className="container">

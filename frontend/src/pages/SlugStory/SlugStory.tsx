@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useStorySlug } from "../../hooks/useStorySlug";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
 import { Comment } from "../../components/Comment/Comment";
+import { ToastContainer } from "react-toastify";
 import {
   FaUser,
   FaEye,
@@ -21,6 +22,8 @@ import { getCountFollow } from "../../redux/Follow/followThunk";
 import { ActionButton } from "../../components/Button/ActionButton";
 import type { RootState, AppDispatch } from "../../redux/store";
 import { CommentList } from "../../components/Comment/CommentList";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 const statusMap: Record<string, string> = {
   ONGOING: "Đang cập nhật",
   COMPLETED: "Hoàn thành",
@@ -42,14 +45,17 @@ export const SlugStory = () => {
   const { countFollow } = useSelector((state: RootState) => state.follow);
 
   const [active, setActive] = useState(false);
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
   useEffect(() => {
     if (storySlug?._id) {
       dispatch(getCount(storySlug._id));
       dispatch(getCountFollow(storySlug._id));
     }
   }, [storySlug?._id, dispatch]);
-  if (loading || loadingChapter)
-    return <p className="text-center my-8">Đang tải truyện...</p>;
+  if (loading || loadingChapter) return <ComponentLoading />;
   if (error || errorChapter)
     return <p className="text-center text-red-500">{error}</p>;
   if (!storySlug) return null;
@@ -171,8 +177,16 @@ export const SlugStory = () => {
         </div>
         <Chapter />
         <Comment storyId={storySlug._id} />
-        <CommentList storyId={storySlug._id}/>
+        <CommentList storyId={storySlug._id} />
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        toastStyle={{
+          fontSize: window.innerWidth < 768 ? "12px" : "16px",
+          minWidth: window.innerWidth < 768 ? "10px" : "50px",
+        }}
+      />
     </div>
   );
 };

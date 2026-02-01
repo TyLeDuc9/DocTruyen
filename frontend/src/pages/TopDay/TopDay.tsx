@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { FaTrophy } from "react-icons/fa";
 import { useGetTopDay } from "../../hooks/useGetTopDay";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 export const TopDay = () => {
   const { storyDay, loading, error, totalStories, updateFilter, filters } =
     useGetTopDay();
@@ -12,7 +14,11 @@ export const TopDay = () => {
   useEffect(() => {
     updateFilter({ page: pageUrl });
   }, [pageUrl]);
-  if (loading) return <p>Đang tải danh sách...</p>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
   return (
     <div className="container">

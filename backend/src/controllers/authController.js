@@ -5,105 +5,42 @@ const crypto = require('crypto')
 const Session = require('../models/Session');
 const ACCESS_TOKEN_TTL = '30m'
 const REFRESH_TOKEN_TTL = 14 * 24 * 60 * 60 * 1000
-exports.changePassword = async (req, res) => {
+exports.registerAdmin = async (req, res) => {
     try {
-        const userId = req.user._id;
-        console.log("REQ USER:", req.user);
-        const { oldPassword, newPassword } = req.body;
-        if (!oldPassword || !newPassword) {
-            return res.status(400).json({ message: "Missing password fields" });
-        }
+        const { email, password, userName } = req.body;
 
-        if (newPassword.length < 6) {
-            return res.status(400).json({ message: "New password must be at least 6 characters" });
-        }
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        const isMatch = await bcrypt.compare(oldPassword, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: "Old password is incorrect" });
-        }
-        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedNewPassword;
-        await user.save();
-        await Session.deleteMany({ userId });
-        res.clearCookie("refreshToken");
-        return res.json({ message: "Password changed successfully. Please login again." });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Server error" });
-    }
-};
-exports.refreshToken = async (req, res) => {
-    try {
-        const refreshToken = req.cookies?.refreshToken;
-        if (!refreshToken) {
-            return res.status(401).json({ message: "Refresh token not found" });
-        }
-
-        const hashed = crypto
-            .createHash("sha256")
-            .update(refreshToken)
-            .digest("hex");
-
-        const session = await Session.findOne({ refreshToken: hashed });
-        if (!session || session.expiresAt < new Date()) {
-            if (session) await session.deleteOne();
-            return res.status(401).json({ message: "Refresh token expired" });
-        }
-
-        const user = await User.findById(session.userId);
-        if (!user || user.isBlocked) {
-            return res.status(403).json({ message: "User not allowed" });
-        }
-
-        const newAccessToken = jwt.sign(
-            { userId: user._id, role: user.role },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "30m" }
-        );
-
-        return res.json({ accessToken: newAccessToken });
-    } catch {
-        return res.status(500).json({ message: "Server error" });
-    }
-};
-exports.register = async (req, res) => {
-    try {
-        const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: "Email and password are required" });
+            return res.status(400).json({ message: "Email và password là bắt buộc" });
         }
 
         const existedUser = await User.findOne({ email });
         if (existedUser) {
-            return res.status(409).json({ message: "Email already exists" });
+            return res.status(409).json({ message: "Email đã tồn tại" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = await User.create({
+        const admin = await User.create({
             email,
             password: hashedPassword,
+            userName: userName || "Admin",
+            role: "admin",
         });
 
-        res.status(201).json({
-            message: "Email created successfully",
+        return res.status(201).json({
+            message: "Tạo admin thành công",
             user: {
-                id: user._id,
-                email: user.email,
-                role: user.role,
+                id: admin._id,
+                email: admin.email,
+                role: admin.role,
+                userName: admin.userName,
             },
         });
     } catch (err) {
-        res.status(500).json({ message: "err server", error: err.message });
+        return res.status(500).json({ message: "Server error", error: err.message });
     }
 };
-
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -158,6 +95,167 @@ exports.login = async (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ message: "err server", error: err.message });
+    }
+};
+exports.loginAdmin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+        if (!user)
+            return res.status(401).json({ message: "Email hoặc mật khẩu không đúng" });
+
+        if (user.isBlocked)
+            return res.status(403).json({ message: "Tài khoản đã bị khóa" });
+
+        if (user.role !== "admin") {
+            return res.status(403).json({ message: "Bạn không có quyền admin" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch)
+            return res.status(401).json({ message: "Email hoặc mật khẩu không đúng" });
+
+        const accessToken = jwt.sign(
+            { userId: user._id, role: user.role },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: ACCESS_TOKEN_TTL }
+        );
+        console.log(accessToken);
+        const refreshToken = crypto.randomBytes(40).toString("hex");
+        const hashedRefreshToken = crypto
+            .createHash("sha256")
+            .update(refreshToken)
+            .digest("hex");
+
+        await Session.create({
+            userId: user._id,
+            refreshToken: hashedRefreshToken,
+            expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL),
+        });
+
+        res.cookie("adminRefreshToken", refreshToken, { 
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            maxAge: REFRESH_TOKEN_TTL,
+        });
+        return res.json({
+            message: "Admin login successfully",
+            accessToken,
+            user: {
+                id: user._id,
+                userName: user.userName,
+                email: user.email,
+                role: user.role,
+                avatarUrl: user.avatarUrl,
+            },
+        });
+    } catch (err) {
+        return res.status(500).json({ message: "err server", error: err.message });
+    }
+};
+
+exports.refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.cookies?.adminRefreshToken || req.cookies?.refreshToken;
+        
+        if (!refreshToken) {
+            return res.status(401).json({ message: "Refresh token not found" });
+        }
+
+        const hashed = crypto
+            .createHash("sha256")
+            .update(refreshToken)
+            .digest("hex");
+
+        const session = await Session.findOne({ refreshToken: hashed });
+        
+        if (!session || session.expiresAt < new Date()) {
+            if (session) await session.deleteOne();
+            return res.status(401).json({ message: "Refresh token expired" });
+        }
+
+        const user = await User.findById(session.userId);
+        if (!user || user.isBlocked) {
+            return res.status(403).json({ message: "User not allowed" });
+        }
+
+        const newAccessToken = jwt.sign(
+            { userId: user._id, role: user.role },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "30m" }
+        );
+
+        return res.json({ accessToken: newAccessToken });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error" });
+    }
+};
+exports.register = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
+        const existedUser = await User.findOne({ email });
+        if (existedUser) {
+            return res.status(409).json({ message: "Email already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+            email,
+            password: hashedPassword,
+            role: "user",
+        });
+
+        res.status(201).json({
+            message: "Email created successfully",
+            user: {
+                id: user._id,
+                email: user.email,
+                role: user.role,
+            },
+        });
+    } catch (err) {
+        res.status(500).json({ message: "err server", error: err.message });
+    }
+};
+
+exports.changePassword = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        console.log("REQ USER:", req.user);
+        const { oldPassword, newPassword } = req.body;
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: "Missing password fields" });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: "New password must be at least 6 characters" });
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Old password is incorrect" });
+        }
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedNewPassword;
+        await user.save();
+        await Session.deleteMany({ userId });
+        res.clearCookie("refreshToken");
+        return res.json({ message: "Password changed successfully. Please login again." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" });
     }
 };
 

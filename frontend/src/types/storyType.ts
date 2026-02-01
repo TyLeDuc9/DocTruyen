@@ -15,6 +15,7 @@ export interface Story {
   categoryId: Category[] | string[];
   createdAt: string;
   updatedAt: string;
+  isDeleted: boolean;
 }
 
 export interface GetStoriesByCategoryResponse {

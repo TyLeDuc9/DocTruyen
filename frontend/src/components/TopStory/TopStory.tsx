@@ -1,4 +1,6 @@
-
+import { useEffect } from "react";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 import { useRandomStory } from "../../hooks/useRandomStory";
 import { ItemStory } from "../ItemStory/ItemStory";
 import Slider from "react-slick";
@@ -6,8 +8,12 @@ import { sliderSettings } from "../../utils/sliderSettings";
 export const TopStory = () => {
   const { randomStory, loading, error } = useRandomStory();
 
-  if (loading) return <div>Đang tải...</div>;
-  if (error) return <div>Lỗi tải thể loại</div>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
+  if (error) return <div>{error}</div>;
   return (
     <div className="">
       <Slider {...sliderSettings}>

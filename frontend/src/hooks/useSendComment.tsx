@@ -3,7 +3,8 @@ import type { RootState, AppDispatch } from "../redux/store";
 import { useState } from "react";
 import { createComment } from "../redux/Comment/commentThunk";
 import type { CreateCommentRequest } from "../types/commentType";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const useSendComment = (storyId: string) => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -11,10 +12,10 @@ export const useSendComment = (storyId: string) => {
   const sendComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      return alert("Please login");
+      return toast.error("Please login");
     }
     if (!content.trim()) {
-      return alert("Comment không được để trống");
+      return toast.error("Comment không được để trống");
     }
     const data: CreateCommentRequest = {
       storyId,
@@ -25,7 +26,7 @@ export const useSendComment = (storyId: string) => {
       await dispatch(createComment(data)).unwrap();
       setContent("");
     } catch (error) {
-      alert("Gửi bình luận thất bại: " + error);
+      toast.error("Gửi bình luận thất bại: " + error);
     }
   };
 

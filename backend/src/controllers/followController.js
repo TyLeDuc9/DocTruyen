@@ -1,6 +1,74 @@
 const Follow = require('../models/Follow')
 const Story = require("../models/Story")
 const User = require('../models/User')
+exports.forceDeleteFollow = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const follow = await Follow.findByIdAndDelete(id);
+
+    if (!follow) {
+      return res.status(404).json({
+        message: 'Follow not found',
+      });
+    }
+
+    return res.json({
+      message: 'Delete follow successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.getAllFollows = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    const sortQuery = req.query.sort || "newest";
+    let sortOptions = { createdAt: -1 };
+    if (sortQuery === "oldest" || sortQuery === "old") {
+      sortOptions = { createdAt: 1 };
+    }
+
+    const follows = await Follow.find()
+      .populate({
+        path: "userId",
+        select: "userName email avatarUrl role",
+      })
+      .populate({
+        path: "storyId",
+        select: "name slug thumbnail status views",
+      })
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Follow.countDocuments();
+
+    return res.json({
+      success: true,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      totalFollows: total,
+      data: follows,
+    });
+  } catch (error) {
+    console.error("getAllFollows error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi lấy danh sách follow",
+    });
+  }
+};
+
+
+
 exports.countFollowByStory = async (req, res) => {
   try {
     const { storyId } = req.params;
