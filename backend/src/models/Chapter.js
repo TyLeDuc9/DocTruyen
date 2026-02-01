@@ -45,6 +45,10 @@ const chapterSchema = new mongoose.Schema(
       ref: "Story",
       required: true,
     },
+     isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

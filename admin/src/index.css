@@ -1,0 +1,18 @@
+@import "tailwindcss";
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.container {
+  @apply w-[80%] mx-auto;
+}
+
+.bg-main {
+  background-color: #236288;
+}
+.bg-content{
+   background-color: #619abd;
+}
+.text-main {
+  color: #236288;
+}

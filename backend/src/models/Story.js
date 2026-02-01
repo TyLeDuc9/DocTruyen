@@ -20,6 +20,11 @@ const storySchema = new mongoose.Schema(
     categoryId: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     ],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   { timestamps: true }
 );

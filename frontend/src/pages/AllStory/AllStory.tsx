@@ -3,8 +3,11 @@ import { PaginationStory } from "../../components/PaginationStory/PaginationStor
 import { FilterStory } from "../../components/Filter/FilterStory";
 import { useAllStory } from "../../hooks/useAllStory";
 import { useAllCategory } from "../../hooks/useAllCategory";
-
+import { useLoading } from "../../context/LoadingContext";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useEffect } from "react";
 export const AllStory = () => {
+  const { setComponentsLoading } = useLoading();
   const { categories } = useAllCategory();
   const {
     allStory,
@@ -12,8 +15,14 @@ export const AllStory = () => {
     filters,
     updateFilter,
     navigate,
+    loading,
+    error,
   } = useAllStory();
-
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
+  if (error) return <div>Lỗi tải thể loại</div>;
   return (
     <div className="container">
       <h1 className="text-main mt-8 text-xl font-medium">Tất cả truyện</h1>

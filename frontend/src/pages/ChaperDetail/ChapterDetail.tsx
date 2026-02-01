@@ -1,13 +1,17 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaBug, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useEffect } from "react";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
 import { useChapterDetail } from "../../hooks/useChapterDetail";
 import { ChapterToolbar } from "../../components/ChapterToolbar/ChapterToolbar";
 import { CommentChapter } from "../../components/CommentChapter/CommentChapter";
 import { CommentChapterList } from "../../components/CommentChapter/CommentChapterList";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 export const ChapterDetail = () => {
   const { chapterSlug } = useParams<{ chapterSlug: string }>();
   const navigate = useNavigate();
+  const { setComponentsLoading } = useLoading();
   const { chapterDetail, story, loading, error } = useChapterDetail(
     chapterSlug!,
   );
@@ -37,9 +41,11 @@ export const ChapterDetail = () => {
       navigate(`/chapter/detail/${nextChapter.slug}`);
     }
   };
-
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
   if (loading || loadingChapters) {
-    return <p className="text-center my-8">Đang tải truyện...</p>;
+    return <ComponentLoading />;
   }
   if (error) return <p className="text-center text-red-500">{error}</p>;
   return (

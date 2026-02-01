@@ -5,16 +5,30 @@ import { CommentReaction } from "./CommentReaction";
 import { CommentReactionReply } from "./CommentReactionReply";
 import { CommentDelete } from "./CommentDelete";
 import { CommentReplyDelete } from "./CommentReplyDelete";
-
+import { useEffect } from "react";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 import { useCommentList } from "../../hooks/useCommentList";
 interface CommentProps {
   storyId: string;
 }
 
 export const CommentList: React.FC<CommentProps> = ({ storyId }) => {
-  const {comments,loading,totalComments,filters,setFilters,openReplies,toggleReplyHandler,updateURL,} = useCommentList(storyId);
-
-  if (loading) return <p>Đang tải bình luận...</p>;
+  const {
+    comments,
+    loading,
+    totalComments,
+    filters,
+    setFilters,
+    openReplies,
+    toggleReplyHandler,
+    updateURL,
+  } = useCommentList(storyId);
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
 
   return (
     <div className="space-y-4">

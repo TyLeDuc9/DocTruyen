@@ -2,7 +2,10 @@ import { useGetHistoryChapter } from "../../hooks/useGetHistoryChapter";
 import { PaginationStory } from "../../components/PaginationStory/PaginationStory";
 import { useNavigate } from "react-router-dom";
 import { deleteChapterApi } from "../../services/readingHistory";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 import { FiX } from "react-icons/fi";
+import { useEffect } from "react";
 export const HistoryChapter = () => {
   const navigate = useNavigate();
   const {
@@ -13,7 +16,11 @@ export const HistoryChapter = () => {
     error,
     totalChapters,
   } = useGetHistoryChapter();
-  if (loading) return <p>Đang tải danh sách...</p>;
+    const { setComponentsLoading } = useLoading();
+    useEffect(() => {
+      setComponentsLoading(loading);
+    }, [loading]);
+    if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
   const handleDeleteChapter = async (chapterId: string) => {
     try {

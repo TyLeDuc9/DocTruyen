@@ -7,12 +7,15 @@ import "slick-carousel/slick/slick-theme.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { LoadingProvider } from "./context/LoadingContext.jsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
+      <LoadingProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
+      </LoadingProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );

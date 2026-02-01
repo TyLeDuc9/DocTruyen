@@ -1,23 +1,28 @@
-import React, { useEffect } from "react";
 import { FaBookmark } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { getFollowMe } from "../../redux/Follow/followThunk";
 import { Link } from "react-router-dom";
 import { FollowButton } from "../../components/Button/FollowButton";
 import type { RootState, AppDispatch } from "../../redux/store";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 import { useSavedHistoryStory } from "../../hooks/useSavedHistoryStory";
+import React, { useEffect } from "react";
 export const Follow: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { follows, loading, error } = useSelector(
-    (state: RootState) => state.follow
+    (state: RootState) => state.follow,
   );
-  const {handleSavedHistoryStory}=useSavedHistoryStory()
+  const { handleSavedHistoryStory } = useSavedHistoryStory();
 
   useEffect(() => {
     dispatch(getFollowMe());
   }, [dispatch]);
-
-  if (loading) return <p>Đang tải danh sách theo dõi...</p>;
+  const { setComponentsLoading } = useLoading();
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
 
   if (follows.length === 0) {
@@ -27,12 +32,16 @@ export const Follow: React.FC = () => {
   return (
     <div className="w-full">
       <div className="text-yellow-500 font-medium uppercase items-center mb-4 text-xl flex">
-        <FaBookmark className="mr-1"/>
+        <FaBookmark className="mr-1" />
         <h2>Truyện đang theo dõi</h2>
       </div>
       <div className="grid grid-cols-4 gap-4 my-4">
         {follows.map((item) => (
-          <div key={item.storyId._id} onClick={()=>handleSavedHistoryStory((item.storyId._id))} className="w-44 relative">
+          <div
+            key={item.storyId._id}
+            onClick={() => handleSavedHistoryStory(item.storyId._id)}
+            className="w-44 relative"
+          >
             <FollowButton storyId={item.storyId._id} />
             <Link to={`/manga/${item.storyId.slug}`}>
               <img

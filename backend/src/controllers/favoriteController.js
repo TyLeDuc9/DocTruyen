@@ -1,4 +1,72 @@
 const Favorite = require("../models/Favorite");
+exports.forceDeleteFavorite = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const favorite = await Favorite.findById(id);
+    if (!favorite) {
+      return res.status(404).json({
+        success: false,
+        message: 'Favorite not found',
+      });
+    }
+
+    await Favorite.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Force delete favorite successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+exports.getAllFavorites = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+    const sortQuery = req.query.sort || "newest";
+    let sortOptions = { createdAt: -1 };
+    if (sortQuery === "oldest" || sortQuery === "old") {
+      sortOptions = { createdAt: 1 };
+    }
+
+    const favorites = await Favorite.find()
+      .populate({
+        path: "userId",
+        select: "userName email avatarUrl role",
+      })
+      .populate({
+        path: "storyId",
+        select: "name slug thumbnail status views",
+      })
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Favorite.countDocuments();
+
+    return res.json({
+      success: true,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      totalFavorites: total,
+      data: favorites,
+    });
+  } catch (error) {
+    console.error("getAllFavorites error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi lấy danh sách favorite",
+    });
+  }
+};
+
 exports.getMyFavorites = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -65,8 +133,6 @@ exports.createFavorite = async (req, res) => {
   }
 };
 
-
-// ================== DELETE FAVORITE ==================
 exports.deleteFavorite = async (req, res) => {
   try {
     const userId = req.user._id;

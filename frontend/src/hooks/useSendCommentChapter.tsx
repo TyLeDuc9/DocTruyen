@@ -3,7 +3,8 @@ import type { RootState, AppDispatch } from "../redux/store";
 import { useState } from "react";
 import { createComment } from "../redux/Comment/commentThunk";
 import type { CreateCommentRequest } from "../types/commentType";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const useSendCommentChapter = (chapterId: string) => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -11,7 +12,7 @@ export const useSendCommentChapter = (chapterId: string) => {
   const sendComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !content.trim())
-      return alert(!user ? "Please login" : "Comment không được để trống");
+      return toast.error(!user ? "Please login" : "Comment không được để trống");
     const data: CreateCommentRequest = {
       chapterId,
       content,
@@ -21,7 +22,7 @@ export const useSendCommentChapter = (chapterId: string) => {
       await dispatch(createComment(data)).unwrap();
       setContent("");
     } catch (error) {
-      alert("Gửi bình luận thất bại: " + error);
+      toast.error("Gửi bình luận thất bại: " + error);
     }
   };
   return {

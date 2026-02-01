@@ -1,4 +1,86 @@
 const Comment = require("../models/Comment");
+  exports.deleteReplyAdmin = async (req, res) => {
+    try {
+      const { commentId, replyId } = req.params;
+
+      await Comment.findByIdAndUpdate(
+        commentId,
+        { $pull: { replies: { _id: replyId } } },
+        { new: true }
+      );
+
+      res.json({
+        success: true,
+        message: "Reply deleted",
+      });
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  };
+exports.deleteParentComment = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const comment = await Comment.findById(id);
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+    await Comment.findByIdAndDelete(id);
+    res.json({
+      success: true,
+      message: "Parent comment deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+exports.getAllComments = async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+    const sortQuery = req.query.sort || "newest";
+    const sortOptions =
+      sortQuery === "oldest" || sortQuery === "old"
+        ? { createdAt: 1 }
+        : { createdAt: -1 };
+
+    const [comments, total] = await Promise.all([
+      Comment.find({})
+        .populate("userId", "userName email avatarUrl role")
+        .populate("storyId", "name slug")
+        .populate("chapterId", "chapterMain title")
+        .populate("replies.userId", "userName email avatarUrl")
+        .sort(sortOptions)
+        .skip(skip)
+        .limit(limit),
+
+      Comment.countDocuments({})
+    ]);
+
+    return res.json({
+      success: true,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      totalComments: total,
+      data: comments,
+    });
+  } catch (err) {
+    console.error("getAllComments error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi lấy danh sách comment",
+    });
+  }
+};
+
+
 exports.getCommentByChapterId = async (req, res) => {
   try {
     const { chapterId } = req.params;
@@ -131,8 +213,8 @@ exports.reactReply = async (req, res) => {
   await comment.save();
 
   res.json({
-    likes: reply.likes,       
-    dislikes: reply.dislikes 
+    likes: reply.likes,
+    dislikes: reply.dislikes
   });
 };
 exports.reactComment = async (req, res) => {
@@ -160,8 +242,8 @@ exports.reactComment = async (req, res) => {
   await comment.save();
 
   res.json({
-    likes: comment.likes,       
-    dislikes: comment.dislikes 
+    likes: comment.likes,
+    dislikes: comment.dislikes
   });
 };
 exports.createReply = async (req, res) => {

@@ -1,10 +1,17 @@
 import { Link, useParams } from "react-router-dom";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
 import { FaBook } from "react-icons/fa";
+import { useEffect } from "react";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 export const Chapter = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { setComponentsLoading } = useLoading();
   const { chapters, loading, error } = useChapterStorySlug(slug!);
-  if (loading) return <p>Đang tải danh sách chương...</p>;
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />; 
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
@@ -26,7 +33,7 @@ export const Chapter = () => {
             <span className="hover:text-blue-600 cursor-pointer">
               Chương {chapter.displayNumber}
             </span>
-            
+
             <span className="text-gray-400 text-sm">
               {new Date(chapter.createdAt).toLocaleDateString("vi-VN")}
             </span>

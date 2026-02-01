@@ -1,7 +1,6 @@
 import logo from "../../assets/logo/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../redux/store";
-import { BsLightbulb } from "react-icons/bs";
 import { FiBell } from "react-icons/fi";
 import { FormRegister } from "../Form/FormRegister";
 import { FormLogin } from "../Form/FormLogin";
@@ -23,6 +22,7 @@ export const TopHeader = () => {
   }, [user, userProfile, dispatch]);
 
   type AuthFormType = "login" | "register" | null;
+
   const buttonClass =
     "p-3 rounded-full border border-[#236288] text-[#236288] hover:bg-[#236288] hover:text-white transition cursor-pointer";
   const btnFormClass =
@@ -37,10 +37,6 @@ export const TopHeader = () => {
           alt="logo"
           className="w-20 h-24 rounded-sm object-contain"
         />
-
-        <button className={buttonClass}>
-          <BsLightbulb size={20} />
-        </button>
 
         <div className="relative w-96">
           <SearchStory />

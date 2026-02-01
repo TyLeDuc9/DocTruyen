@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { createReply } from "../redux/Comment/commentThunk";
 import { useDispatch, useSelector } from "react-redux";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import type { CreateReplyRequest } from "../types/commentType";
 import type { RootState, AppDispatch } from "../redux/store";
 export const useSendReply = (commentId: string, onClose: () => void) => {
@@ -11,11 +12,11 @@ export const useSendReply = (commentId: string, onClose: () => void) => {
   const sendReply = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      alert("Please login");
+       toast.error("Please login");
       return;
     }
     if (!content.trim()) {
-      alert("Comment không được để trống");
+       toast.error("Comment không được để trống");
       return;
     }
     const data: CreateReplyRequest = {
@@ -27,7 +28,7 @@ export const useSendReply = (commentId: string, onClose: () => void) => {
       setContent("");
       onClose();
     } catch (error) {
-      alert("Gửi bình luận thất bại: " + error);
+       toast.error("Gửi bình luận thất bại: " + error);
     }
   };
   return { content, setContent, sendReply };

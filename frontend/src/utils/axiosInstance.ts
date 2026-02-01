@@ -28,7 +28,6 @@ axiosInstance.interceptors.response.use(
       originalRequest?.url?.includes("/auth/register") ||
       originalRequest?.url?.includes("/auth/refresh-token");
 
-    // ❗ Nếu là auth route → không refresh
     if (isAuthRoute) {
       return Promise.reject(error);
     }

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ComponentLoading } from "../../components/Loading/ComponentLoading";
+import { useLoading } from "../../context/LoadingContext";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useCategorySlugStory } from "../../hooks/useCategorySlugStory";
 import { useCategorySlug } from "../../hooks/useCategorySlug";
@@ -9,11 +11,12 @@ import { FilterStory } from "../../components/Filter/FilterStory";
 import type { GetStoryParams, StoryStatus } from "../../types/storyType";
 
 export const Category: React.FC = () => {
+  const { setComponentsLoading } = useLoading();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { categories } = useAllCategory();
+  const { categories, loading } = useAllCategory();
   const { categorySlug } = useCategorySlug(slug || "");
 
   const [filters, setFilters] = useState<GetStoryParams>({
@@ -45,7 +48,10 @@ export const Category: React.FC = () => {
     slug: slug || "",
     params: filters,
   });
-
+  useEffect(() => {
+    setComponentsLoading(loading);
+  }, [loading]);
+  if (loading) return <ComponentLoading />;
   return (
     <div className="container">
       <h1 className="text-main mt-8 text-xl font-medium">
