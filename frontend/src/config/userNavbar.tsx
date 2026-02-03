@@ -6,7 +6,8 @@ import {
   FiLock,
   FiBell,
   FiClock,
-  FiBookOpen 
+  FiBookOpen,
+  
 } from "react-icons/fi";
 import type { MenuItem } from "../types/userType";
 export const userNavbar = (handleLogout: () => void): MenuItem[] => [

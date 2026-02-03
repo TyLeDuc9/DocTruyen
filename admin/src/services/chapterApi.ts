@@ -1,7 +1,13 @@
 import axios from "axios";
 import { API } from "../config/api";
 import axiosAdmin from "../utils/axiosAdmin";
-import type {GetAllChapterResponse,CreateChapterRequest, CreateChapterResponse, ChapterParams} from '../types/chapterType'
+import type {GetAllChapterResponse,CreateChapterRequest, Chapter,CreateChapterResponse, ChapterParams} from '../types/chapterType'
+
+export const getSelectChapter = async (): Promise<Chapter[]> => {
+  const res = await axiosAdmin.get("/chapter/select");
+  return res.data;
+};
+
 export const deleteChapterApi=async(id:string)=>{
   const res=await axiosAdmin.delete(`/chapter/force-delete/${id}`)
   return res.data

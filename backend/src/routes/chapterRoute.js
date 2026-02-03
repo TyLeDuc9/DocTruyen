@@ -9,6 +9,7 @@ router.post(
   chapterController.createChapter
 );
 router.get("/all", chapterController.getAllChapterAdmin);
+router.get("/select", chapterController.getSelectChapters);
 router.delete(
   "/soft-delete/:id",
   verifyToken,

@@ -4,7 +4,7 @@ import { createChapter } from "../services/chapterApi";
 
 interface CreateChapterFormState {
   title: string;
-  chapterMain: string; 
+  chapterMain: string;
   chapterSub: string;
   content: string;
   storyId: string;
@@ -26,27 +26,30 @@ export const useCreateChapter = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const handleImagesChange = (files: FileList | null) => {
     if (!files) return;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       images: Array.from(files),
     }));
   };
 
   const removeImage = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
     }));
   };
 
   const resetImages = () => {
-    setFormData(prev => ({ ...prev, images: [] }));
+    setFormData((prev) => ({ ...prev, images: [] }));
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -63,9 +66,7 @@ export const useCreateChapter = () => {
       title: formData.title,
       chapterMain: Number(formData.chapterMain),
       chapterSub:
-        formData.chapterSub !== ""
-          ? Number(formData.chapterSub)
-          : undefined,
+        formData.chapterSub !== "" ? Number(formData.chapterSub) : undefined,
       content: formData.content || undefined,
       storyId: formData.storyId,
     };
@@ -76,7 +77,6 @@ export const useCreateChapter = () => {
 
       await createChapter(payload, formData.images);
 
-  
       setFormData({
         title: "",
         chapterMain: "",
@@ -87,7 +87,7 @@ export const useCreateChapter = () => {
       });
 
       if (fileInputRef.current) fileInputRef.current.value = "";
-    }  catch (err) {
+    } catch (err) {
       setError(err instanceof Error ? err.message : "Có lỗi xảy ra");
     } finally {
       setLoading(false);
