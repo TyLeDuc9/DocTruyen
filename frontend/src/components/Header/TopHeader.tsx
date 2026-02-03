@@ -9,12 +9,13 @@ import avatarDefault from "../../assets/logo/avatar.jpg";
 import { getMeUser } from "../../redux/User/userThunk";
 import { useEffect, useState } from "react";
 import { SearchStory } from "../Search/SearchStory";
+import { GenreNotify } from "../Genre/GenreNotify";
 export const TopHeader = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const [openNavbar, setOpenNavbar] = useState(false);
   const { userProfile } = useSelector((state: RootState) => state.user);
-
+  const [openNotify, setOpenNotify] = useState(false);
   useEffect(() => {
     if (user && !userProfile) {
       dispatch(getMeUser());
@@ -61,9 +62,28 @@ export const TopHeader = () => {
           </>
         ) : (
           <>
-            <button className={buttonClass}>
-              <FiBell size={20} />
-            </button>
+            <div
+              className="relative"
+              onMouseEnter={() => setOpenNotify(true)}
+              onMouseLeave={() => setOpenNotify(false)}
+            >
+              <button className={buttonClass}>
+                <FiBell size={20} />
+              </button>
+
+              {openNotify && (
+                <div
+                  className="
+        absolute -right-4 top-full mt-2
+        w-[420px]
+        z-50
+      "
+                >
+                  <GenreNotify />
+                </div>
+              )}
+            </div>
+
             <div className="relative">
               <button
                 onClick={() => setOpenNavbar((prev) => !prev)}

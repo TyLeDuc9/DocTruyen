@@ -83,7 +83,7 @@ export const AllUser = () => {
                   <th className={thClass}>Role</th>
                   <th className={thClass}>Created At</th>
                   <th className={thClass}>Updated At</th>
-                  <th className={thClass}>Blocke</th>
+                  <th className={thClass}>Block</th>
                   <th className={thClass}>Unblock</th>
                   <th className={thClass}>Delete</th>
                 </tr>

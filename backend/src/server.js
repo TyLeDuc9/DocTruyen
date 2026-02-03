@@ -17,6 +17,7 @@ const favoriteRoute = require('./routes/favoriteRoute')
 const commentRoute = require('./routes/commentRoute')
 const userRoute = require('./routes/userRoute')
 const readingHistoryRoute = require('./routes/readingHistoryRoute')
+const notifyRoute = require('./routes/notifyRoute')
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,              
@@ -33,6 +34,7 @@ app.use('/api/favorite', favoriteRoute)
 app.use('/api/comment', commentRoute)
 app.use('/api/user', userRoute)
 app.use('/api/reading-history', readingHistoryRoute)
+app.use('/api/notify', notifyRoute)
 
 
 connectDB().then(() => {

@@ -1,5 +1,13 @@
 const Chapter = require('../models/Chapter');
 const Story = require("../models/Story");
+exports.getSelectChapters = async (req, res) => {
+  try {
+    const chapters = await Chapter.find({ isDeleted: false });
+    res.status(200).json(chapters);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 exports.deleteChapter = async (req, res) => {
   try {
     const { id } = req.params;

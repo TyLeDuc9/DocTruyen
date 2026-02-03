@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useCreateCategory } from "../../hooks/useCreateCategory";
+import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
 export const CategoryCreate = () => {
@@ -17,9 +17,9 @@ export const CategoryCreate = () => {
 
       <div className="flex-1 flex justify-center">
         <div className="bg-white w-full max-w-md rounded-2xl mt-8 shadow-lg p-8">
-          <h2 className="text-xl font-medium text-center mb-6">
-            Create Category
-          </h2>
+          <h1 className="text-2xl font-bold mb-6 text-center text-main">
+          Create Category
+        </h1>
 
           <form onSubmit={handleSubmit} action="">
             <div className="mb-6">
