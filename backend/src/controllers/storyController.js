@@ -1,5 +1,6 @@
 const Story = require('../models/Story');
 const Category = require("../models/Category");
+
 exports.getSelectAll = async (req, res) => {
   try {
     const stories = await Story.find({ isDeleted: false })

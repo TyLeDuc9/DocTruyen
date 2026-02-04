@@ -18,6 +18,7 @@ const commentRoute = require('./routes/commentRoute')
 const userRoute = require('./routes/userRoute')
 const readingHistoryRoute = require('./routes/readingHistoryRoute')
 const notifyRoute = require('./routes/notifyRoute')
+const dashRoute = require('./routes/dashboardRoute')
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,              
@@ -35,6 +36,7 @@ app.use('/api/comment', commentRoute)
 app.use('/api/user', userRoute)
 app.use('/api/reading-history', readingHistoryRoute)
 app.use('/api/notify', notifyRoute)
+app.use('/api/dashboard', dashRoute)
 
 
 connectDB().then(() => {
