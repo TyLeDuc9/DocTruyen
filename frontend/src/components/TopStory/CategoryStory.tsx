@@ -21,9 +21,11 @@ export const CategoryStory: React.FC<CategoryStoryProps> = ({ slug }) => {
   if (error) return <div>Lỗi tải thể loại</div>;
 
   return (
-    <div className="grid grid-cols-6 gap-x-6 gap-y-10">
+    <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 lg:gap-x-6 gap-y-6 lg:gap-y-10">
       {stories.map((item) => (
-        <ItemStory key={item._id} itemStory={item} />
+        <div className="mx-4">
+          <ItemStory key={item._id} itemStory={item} />
+        </div>
       ))}
     </div>
   );

@@ -14,8 +14,8 @@ export const SearchList = () => {
   }, [loading]);
   if (loading) return <ComponentLoading />;
   return (
-    <div className="container">
-      <section className="flex text-black font-medium uppercase items-center my-4 text-xl">
+    <div className="lg:w-[80%] w-[90%] mx-auto">
+      <section className="flex text-black font-medium uppercase items-center my-4 lg:text-xl text-lg">
         <FaSearch className="mr-2 text-main" />
         <h1 className="text-main">
           Kết quả tìm kiếm cho:{" "}
@@ -23,7 +23,7 @@ export const SearchList = () => {
         </h1>
       </section>
 
-      <div className="grid grid-cols-6 gap-x-6 gap-y-10">
+       <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 ml-2  gap-x-6  gap-y-6 lg:gap-y-10">
         {allStory.map((item) => (
           <ItemStory key={item._id} itemStory={item} />
         ))}

@@ -25,7 +25,7 @@ export const NotifyList = () => {
     );
 
   return (
-    <div className="w-full px-4 space-y-4">
+    <div className="w-full lg:px-4 space-y-4">
       {data.length === 0 && (
         <p className="text-center text-gray-400 py-10">
           Không có thông báo nào
@@ -54,7 +54,7 @@ export const NotifyList = () => {
                 {n.title}
               </h3>
 
-              <p className="mt-1 text-sm text-gray-600 leading-relaxed line-clamp-2">
+              <p className="mt-1 lg:text-sm text-xs text-gray-600 leading-relaxed line-clamp-2">
                 {n.message}
               </p>
             </div>
@@ -77,7 +77,7 @@ export const NotifyList = () => {
                   src={n.storyId.thumbnail}
                   alt={n.storyId.name}
                   className="
-              w-20 h-28 object-cover
+              lg:w-20 lg:h-28 w-12 h-16 object-cover
               rounded-lg border border-gray-200
             "
                 />
@@ -88,7 +88,7 @@ export const NotifyList = () => {
                   src={n.chapterId.images[0]}
                   alt={n.chapterId.title}
                   className="
-              w-20 h-28 object-cover
+              lg:w-20 lg:h-28 w-12 h-16 object-cover
               rounded-lg border border-gray-200
             "
                 />

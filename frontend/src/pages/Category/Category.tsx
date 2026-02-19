@@ -53,12 +53,12 @@ export const Category: React.FC = () => {
   }, [loading]);
   if (loading) return <ComponentLoading />;
   return (
-    <div className="container">
-      <h1 className="text-main mt-8 text-xl font-medium">
+    <div className="lg:w-[80%] w-[90%] mx-auto">
+      <h1 className="text-main lg:mt-8 mt-4 lg:text-xl text-lg font-medium">
         {categorySlug?.name}
       </h1>
 
-      <div className="bg-white p-8 shadow-lg my-4">
+      <div className="bg-white text-sm p-8 shadow-lg my-4">
         <p>{categorySlug?.content}</p>
       </div>
 
@@ -71,7 +71,7 @@ export const Category: React.FC = () => {
         onCountryChange={(country) => updateFilter({ country, page: 1 })}
       />
 
-      <div className="grid grid-cols-6 gap-x-6 gap-y-10">
+      <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 ml-2  gap-x-6  gap-y-6 lg:gap-y-10">
         {stories.map((item) => (
           <ItemStory key={item._id} itemStory={item} />
         ))}

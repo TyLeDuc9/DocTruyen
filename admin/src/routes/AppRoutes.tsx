@@ -19,7 +19,9 @@ import { CreateStory } from "../components/StoryAction/CreateStory";
 import { UpdateStory } from "../components/StoryAction/UpdateStory";
 import { CreateChapter } from "../components/ChapterAction/CreateChapter";
 import { Notify } from "../pages/Notify/Notify";
+import { ChapterReport } from "../pages/ChapterReport/ChapterReport";
 import { CreateNotify } from "../components/NotifyAction/CreateNotify";
+import { ReportUpdate } from "../components/ReportAction/ReportUpdate";
 
 export const AppRoutes = () => {
   return (
@@ -29,7 +31,7 @@ export const AppRoutes = () => {
       <Route element={<PrivateAdmin />}>
         <Route path="/admin" element={<Home />}>
           <Route index element={<Dashboard />} />
-          
+
           <Route path="user" element={<AllUser />} />
           <Route path="category" element={<AllCategory />} />
           <Route path="story" element={<AllStory />} />
@@ -47,6 +49,8 @@ export const AppRoutes = () => {
           <Route path="chapter/create" element={<CreateChapter />} />
           <Route path="notify" element={<Notify />} />
           <Route path="notify/create" element={<CreateNotify />} />
+          <Route path="chapter-report" element={<ChapterReport />} />
+          <Route path="chapter-report/update/:id" element={<ReportUpdate />} />
         </Route>
       </Route>
     </Routes>

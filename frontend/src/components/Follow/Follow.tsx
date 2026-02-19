@@ -31,16 +31,16 @@ export const Follow: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div className="text-yellow-500 font-medium uppercase items-center mb-4 text-xl flex">
+      <div className="text-yellow-500 font-medium uppercase items-center mb-4 flex text-base lg:text-lg">
         <FaBookmark className="mr-1" />
-        <h2>Truyện đang theo dõi</h2>
+        <h2 className="">Truyện đang theo dõi</h2>
       </div>
-      <div className="grid grid-cols-4 gap-4 my-4">
+      <div className="grid lg:grid-cols-4 sm:grid-cols-4 grid-cols-2 gap-4 my-4 ml-2">
         {follows.map((item) => (
           <div
             key={item.storyId._id}
             onClick={() => handleSavedHistoryStory(item.storyId._id)}
-            className="w-44 relative"
+            className="lg:w-44 w-36 relative"
           >
             <FollowButton storyId={item.storyId._id} />
             <Link to={`/manga/${item.storyId.slug}`}>
@@ -50,12 +50,12 @@ export const Follow: React.FC = () => {
                 className="w-full h-auto rounded overflow-hidden"
               />
 
-              <h3 className="mt-2 text-base hover:text-[#236288] font-semibold text-center line-clamp-1 cursor-pointer">
+              <h3 className="mt-2 lg:text-base text-xs hover:text-[#236288] font-semibold text-center line-clamp-1 cursor-pointer">
                 {item.storyId.name}
               </h3>
             </Link>
 
-            <span className="block text-center text-[13px] font-medium hover:text-[#236288]">
+            <span className="block text-center text-[10px] lg:text-[13px] font-medium hover:text-[#236288]">
               Chương {item.storyId.totalChapters}
             </span>
           </div>

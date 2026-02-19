@@ -13,9 +13,9 @@ export const ScrollToTopButton = () => {
     visible && (
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="fixed bottom-6 right-6 w-8 h-8 cursor-pointer
-                  bg-main text-white rounded-full 
-                   flex items-center justify-center shadow-lg z-50"
+        className="hidden lg:flex fixed bottom-6 right-6 w-8 h-8 cursor-pointer
+                 bg-main text-white rounded-full
+                 items-center justify-center shadow-lg z-50"
       >
         <MdKeyboardArrowUp className="text-lg" />
       </button>

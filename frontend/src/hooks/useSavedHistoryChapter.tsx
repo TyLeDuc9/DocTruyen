@@ -3,7 +3,10 @@ import {
   saveChapterHistoryApi,
   checkChapterApi,
 } from "../services/readingHistory";
-
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const useSavedHistoryChapter = (
   chapterId?: string,
   storyId?: string,
@@ -11,6 +14,7 @@ export const useSavedHistoryChapter = (
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const { user, accessToken } = useSelector((state: RootState) => state.auth);
   useEffect(() => {
     if (!chapterId) return;
 
@@ -18,7 +22,6 @@ export const useSavedHistoryChapter = (
       try {
         const res = await checkChapterApi(chapterId);
         setSaved(res.saved);
-     
       } catch (err) {
         console.error(err);
       }
@@ -29,6 +32,11 @@ export const useSavedHistoryChapter = (
 
   const handleSavedChapterHistory = async () => {
     if (!chapterId || !storyId) return;
+
+    if (!user || !accessToken) {
+      toast.error("Bạn cần đăng nhập để theo dõi truyện");
+      return;
+    }
     try {
       setLoading(true);
       setError(null);
@@ -40,7 +48,6 @@ export const useSavedHistoryChapter = (
       setLoading(false);
     }
   };
-
 
   return { loading, error, handleSavedChapterHistory, saved };
 };

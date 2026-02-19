@@ -19,6 +19,7 @@ const userRoute = require('./routes/userRoute')
 const readingHistoryRoute = require('./routes/readingHistoryRoute')
 const notifyRoute = require('./routes/notifyRoute')
 const dashRoute = require('./routes/dashboardRoute')
+const chapterReportRoute = require('./routes/chapterReportRoute')
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,              
@@ -37,6 +38,8 @@ app.use('/api/user', userRoute)
 app.use('/api/reading-history', readingHistoryRoute)
 app.use('/api/notify', notifyRoute)
 app.use('/api/dashboard', dashRoute)
+app.use('/api/chapter-report', chapterReportRoute)
+
 
 
 connectDB().then(() => {

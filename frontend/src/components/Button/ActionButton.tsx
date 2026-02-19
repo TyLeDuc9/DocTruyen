@@ -51,7 +51,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 
       <button
         onClick={handleFollow}
-        className={`flex items-center gap-2 px-6 py-2.5  
+        className={`flex items-center gap-2 px-5 py-2.5  
       shadow-md  transition-all duration-200 text-white rounded-sm cursor-pointer
       ${isFollowed ? " text-gray-800 bg-black " : "bg-black"}`}
       >
@@ -64,7 +64,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
       </button>
       <button
         onClick={handleFavorite}
-        className={`flex items-center gap-2 px-6 py-2.5  
+        className={`flex items-center gap-2 px-[52px] py-2.5  
       shadow-md  transition-all duration-200 rounded-sm cursor-pointer
       ${
         isFavorite
