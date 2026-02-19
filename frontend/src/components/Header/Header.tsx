@@ -4,7 +4,7 @@ import { NavHeader } from "./NavHeader";
 export const Header = () => {
   return (
     <header className="bg-white">
-      <div className="container">
+      <div className="lg:w-[80%] w-[95%] mx-auto">
         <TopHeader />
       </div>
       <div className="bg-main">

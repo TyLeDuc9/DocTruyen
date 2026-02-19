@@ -23,7 +23,7 @@ export const CreateNotify = () => {
   return (
     <>
       <button
-        onClick={() => navigate("/admin/category")}
+        onClick={() => navigate("/admin/notify")}
         className="bg-main text-white text-sm p-2 rounded-sm cursor-pointer flex items-center gap-1"
       >
         <FaArrowLeft />

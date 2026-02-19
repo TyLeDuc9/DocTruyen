@@ -8,6 +8,7 @@ import { CommentChapter } from "../../components/CommentChapter/CommentChapter";
 import { CommentChapterList } from "../../components/CommentChapter/CommentChapterList";
 import { ComponentLoading } from "../../components/Loading/ComponentLoading";
 import { useLoading } from "../../context/LoadingContext";
+import { ReportButton } from "../../components/Button/ReportButton";
 export const ChapterDetail = () => {
   const { chapterSlug } = useParams<{ chapterSlug: string }>();
   const navigate = useNavigate();
@@ -50,8 +51,8 @@ export const ChapterDetail = () => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
   return (
     <div className="bg-gray-950 min-h-screen">
-      <div className="container">
-        <div className="pt-8">
+      <div className="lg:w-[80%] w-[90%] mx-auto">
+        <div className="lg:pt-8 pt-4">
           <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm rounded-lg">
             <Link to="/" className="hover:text-[#236288]">
               Trang chủ
@@ -62,13 +63,13 @@ export const ChapterDetail = () => {
             <Link to={`/chapter/detail/${chapterDetail?.slug}`}>
               Chương {chapterDetail?.displayNumber}
             </Link>
-            <div className="flex items-center">
-              <h1 className="uppercase text-base my-4 font-medium">
+            <div className=" items-center">
+              <h1 className="uppercase text-base lg:mt-4 mt-2 font-medium">
                 {chapterDetail?.title}
               </h1>
-              <p className="mx-6 text-gray-500">
+              <p className="text-gray-500 text-xs">
                 ( Cập nhật lúc:
-                <span className="lowercase text-sm font-normal ml-1">
+                <span className="lowercase font-normal  ">
                   {chapterDetail?.updatedAt &&
                     new Date(chapterDetail.updatedAt).toLocaleString("vi-VN")}
                 </span>
@@ -76,16 +77,7 @@ export const ChapterDetail = () => {
               </p>
             </div>
 
-            <div className="flex justify-center mt-4">
-              <button
-                className="bg-red-500 px-4 py-2 text-white rounded-sm 
-                     hover:bg-red-400 cursor-pointer
-                     flex items-center gap-2"
-              >
-                <FaBug />
-                Báo lỗi chương
-              </button>
-            </div>
+            {chapterDetail && <ReportButton chapterId={chapterDetail._id} />}
 
             <div className="flex justify-center mt-4">
               <button
@@ -131,12 +123,12 @@ export const ChapterDetail = () => {
             />
           ))}
         </div>
-        <div className="container">
+        <div className="lg:w-[80%] w-[90%] mx-auto">
           <div className="pt-8">
             <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm rounded-lg">
               <div className="flex justify-center mt-2">
                 <button
-                  className="bg-red-500 px-4 py-2 text-white rounded-sm 
+                  className="bg-red-500 lg:px-4 px-2 py-2 text-white rounded-sm 
                      hover:bg-red-400 cursor-pointer
                      flex items-center gap-2"
                 >
@@ -145,7 +137,7 @@ export const ChapterDetail = () => {
                 </button>
               </div>
 
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center my-4">
                 <button
                   onClick={handlePrev}
                   disabled={!prevChapter}

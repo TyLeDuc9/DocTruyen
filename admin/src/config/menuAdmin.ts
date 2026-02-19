@@ -8,7 +8,7 @@ import {
   FaHeart,
   FaComment,
   FaUserPlus,
-
+  FaBug,
 } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
 export const menuAdmin = [
@@ -22,5 +22,5 @@ export const menuAdmin = [
   { name: "Favorite", path: "/admin/favorite", icon: FaHeart },
   { name: "Comment", path: "/admin/comment", icon: FaComment },
   { name: "Follow", path: "/admin/follow", icon: FaUserPlus },
-
+  { name: "Report", path: "/admin/chapter-report", icon: FaBug },
 ];

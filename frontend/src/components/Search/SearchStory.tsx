@@ -38,12 +38,13 @@ export const SearchStory = () => {
             handleSearch(keyword.trim());
           }
         }}
-        className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-100 focus:outline-none"
+        className="w-full lg:pl-10 pl-8 lg:pr-4 py-2 lg:py-3 lg:text-base sm:text-base text-xs 
+        rounded-lg bg-gray-100 focus:outline-none"
       />
 
       <FiSearch
         className="absolute left-3 top-1/2 -translate-y-1/2 text-[#236288]"
-        size={18}
+        size={16}
       />
 
 
@@ -53,17 +54,17 @@ export const SearchStory = () => {
             <div
               key={item._id}
               onClick={() => handleGoDetail(item.slug)}
-              className="px-4 py-2 flex items-center hover:bg-gray-100 cursor-pointer text-sm"
+              className="px-4 py-2 flex items-center hover:bg-gray-100 cursor-pointer text-xs sm:text-sm lg:text-sm"
             >
               <img
-                className="w-16 h-20 object-cover"
+                className="lg:w-16 w-14 h-20 rounded-sm  object-cover"
                 src={item.thumbnail}
                 alt={item.name}
               />
 
               <div className="mx-4">
                 <h1 className="text-main font-medium">{item.name}</h1>
-                <span className="font-medium text-xs">
+                <span className="font-medium lg:text-xs sm:text-xs text-[10px]">
                   Chương {item.totalChapters}
                 </span>
               </div>

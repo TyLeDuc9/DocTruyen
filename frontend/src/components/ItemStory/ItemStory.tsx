@@ -10,7 +10,7 @@ interface ItemStoryProps {
 export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
   const { handleSavedHistoryStory } = useSavedHistoryStory();
   return (
-    <div className="w-44 relative">
+    <div className="lg:w-44 w-36 relative">
       <FollowButton storyId={itemStory._id} />
       <Link
         to={`/manga/${itemStory.slug}`}
@@ -22,12 +22,12 @@ export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
           className="w-full h-auto rounded overflow-hidden"
         />
 
-        <h3 className="mt-2 text-base hover:text-[#236288] font-semibold text-center line-clamp-1 cursor-pointer">
+        <h3 className="mt-2 lg:text-base text-xs hover:text-[#236288] font-semibold text-center line-clamp-1 cursor-pointer">
           {itemStory.name}
         </h3>
       </Link>
 
-      <span className="block text-center text-[13px] font-medium hover:text-[#236288]">
+      <span className="block text-center text-[10px] lg:text-[13px] font-medium hover:text-[#236288]">
         Chương {itemStory.totalChapters}
       </span>
       <ToastContainer

@@ -37,24 +37,24 @@ export const GenreNotify = () => {
        relative
       border-b-2 border-gray-200
       transition-all duration-200
-      p-3
+      lg:p-3 p-1
     "
         >
           <div className="grid grid-cols-[1fr_64px] gap-4 items-center">
-            {/* LEFT CONTENT */}
+            {/* LEFT CONTENT */}  
             <div className="flex flex-col gap-1">
-              <h3 className="font-semibold text-main text-sm line-clamp-1">
+              <h3 className="font-semibold text-main lg:text-sm text-xs line-clamp-1">
                 {n.title}
               </h3>
 
-              <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
+              <p className="lg:text-sm text-xs text-gray-600 leading-relaxed line-clamp-2">
                 {n.message}
               </p>
 
               {n.link && (
                 <a
                   href={n.link}
-                  className="text-sm font-medium text-main hover:underline w-fit"
+                  className="lg:text-sm text-xs font-medium text-main hover:underline w-fit"
                 >
                   Xem chi tiết →
                 </a>
@@ -67,7 +67,7 @@ export const GenreNotify = () => {
                 <img
                   src={n.storyId.thumbnail}
                   alt={n.storyId.name}
-                  className="w-12 h-16 object-cover rounded-sm border border-gray-200"
+                  className="lg:w-12 lg:h-16 w-8 h-12 object-cover rounded-sm border border-gray-200"
                 />
               )}
 
@@ -75,7 +75,7 @@ export const GenreNotify = () => {
                 <img
                   src={n.chapterId.images[0]}
                   alt={n.chapterId.title}
-                  className="w-12 h-16 object-cover rounded-sm border border-gray-200"
+                  className="lg:w-12 lg:h-16 w-8 h-12 object-cover rounded-sm border border-gray-200"
                 />
               )}
 

@@ -24,6 +24,7 @@ import type { RootState, AppDispatch } from "../../redux/store";
 import { CommentList } from "../../components/Comment/CommentList";
 import { ComponentLoading } from "../../components/Loading/ComponentLoading";
 import { useLoading } from "../../context/LoadingContext";
+
 const statusMap: Record<string, string> = {
   ONGOING: "Đang cập nhật",
   COMPLETED: "Hoàn thành",
@@ -46,23 +47,28 @@ export const SlugStory = () => {
 
   const [active, setActive] = useState(false);
   const { setComponentsLoading } = useLoading();
+
   useEffect(() => {
     setComponentsLoading(loading);
-  }, [loading]);
+  }, [loading, setComponentsLoading]);
+
   useEffect(() => {
     if (storySlug?._id) {
       dispatch(getCount(storySlug._id));
       dispatch(getCountFollow(storySlug._id));
     }
   }, [storySlug?._id, dispatch]);
+
   if (loading || loadingChapter) return <ComponentLoading />;
   if (error || errorChapter)
     return <p className="text-center text-red-500">{error}</p>;
   if (!storySlug) return null;
 
   return (
-    <div className="container mx-auto px-4">
-      <div className="bg-gray-50 my-6 p-4 text-sm rounded shadow-sm">
+    <div className="w-[95%] md:w-[85%] lg:w-[80%] mx-auto">
+
+      {/* Breadcrumb */}
+      <div className="bg-gray-50 my-4 md:my-6 p-3 md:p-4 text-sm rounded shadow-sm">
         <Link to="/" className="font-medium hover:text-[#236288]">
           Trang chủ
         </Link>
@@ -70,50 +76,60 @@ export const SlugStory = () => {
         <span className="font-medium">{storySlug.name}</span>
       </div>
 
-      <div className="bg-white p-6 rounded shadow my-8">
-        <div className="flex gap-6">
-          <img
-            src={storySlug.thumbnail}
-            alt={storySlug.name}
-            className="w-44 h-60 rounded-sm shadow"
-          />
-          <div className="flex-1">
-            <h1 className="text-2xl font-semibold mb-4">{storySlug.name}</h1>
+      {/* Main Card */}
+      <div className="bg-white p-4 md:p-6 rounded shadow my-6">
 
-            <div className="space-y-2 text-gray-700">
-              <div className="flex items-center gap-2">
-                {Array.isArray(storySlug.alternateName) &&
-                  storySlug.alternateName.length > 0 && (
-                    <div className="flex items-center gap-2">
-                      <FaPlus className="text-gray-500" />
-                      <span className="font-medium">Tên khác:</span>
-                      <span>{storySlug.alternateName.join(", ")}</span>
-                    </div>
-                  )}
-              </div>
+        <div className="flex flex-col md:flex-row gap-6">
+
+          {/* Thumbnail */}
+          <div className="flex justify-center md:block">
+            <img
+              src={storySlug.thumbnail}
+              alt={storySlug.name}
+              className="w-40 h-56 md:w-44 md:h-60 rounded shadow object-cover"
+            />
+          </div>
+
+          {/* Info */}
+          <div className="flex-1">
+
+            <h1 className="text-xl md:text-2xl font-semibold mb-4 text-center md:text-left">
+              {storySlug.name}
+            </h1>
+
+            <div className="space-y-2 text-gray-700 text-sm md:text-base">
+
+              {Array.isArray(storySlug.alternateName) &&
+                storySlug.alternateName.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <FaPlus className="text-gray-500" />
+                    <span className="font-medium">Tên khác:</span>
+                    <span>{storySlug.alternateName.join(", ")}</span>
+                  </div>
+                )}
 
               <div className="flex items-center gap-2">
                 <FaUser className="text-gray-500" />
                 <span className="font-medium">Tác giả:</span>
-                <span className="">{storySlug.author}</span>
+                <span>{storySlug.author}</span>
               </div>
 
               <div className="flex items-center gap-2">
                 <FaSyncAlt className="text-gray-500" />
                 <span className="font-medium">Tình trạng:</span>
-                <span className="">{statusMap[storySlug.status]}</span>
+                <span>{statusMap[storySlug.status]}</span>
               </div>
 
               <div className="flex items-center gap-2">
                 <FaGlobeAsia className="text-gray-500" />
                 <span className="font-medium">Quốc gia:</span>
-                <span className="">{storySlug.country}</span>
+                <span>{storySlug.country}</span>
               </div>
 
               <div className="flex items-center gap-2">
                 <FaEye className="text-gray-500" />
                 <span className="font-medium">Lượt xem:</span>
-                <span className="">
+                <span>
                   {storySlug.views.toLocaleString("vi-VN")}
                 </span>
               </div>
@@ -121,7 +137,7 @@ export const SlugStory = () => {
               <div className="flex items-center gap-2">
                 <FaBookOpen className="text-gray-500" />
                 <span className="font-medium">Số chương:</span>
-                <span className=" ">{storySlug.totalChapters}</span>
+                <span>{storySlug.totalChapters}</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -138,53 +154,72 @@ export const SlugStory = () => {
             </div>
 
             {/* Categories */}
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
               {Array.isArray(storySlug.categoryId) &&
                 storySlug.categoryId.map((cat: any) => (
                   <Link
                     key={cat._id}
                     to={`/the-loai/${cat.slug}`}
-                    className="px-3 py-1 border border-blue-100 text-[#236288] rounded-sm 
-                    hover:bg-blue-300 hover:text-white transition"
+                    className="px-3 py-2 text-xs md:text-sm border border-blue-200 text-[#236288] rounded-sm 
+                    hover:bg-[#236288] hover:text-white transition"
                   >
                     {cat.name}
                   </Link>
                 ))}
             </div>
 
-            <ActionButton chapters={chapters} storyId={storySlug._id} />
+            {/* Action Button */}
+            <div className="mt-4">
+              <ActionButton
+                chapters={chapters}
+                storyId={storySlug._id}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="mt-8">
-          <h2 className="flex items-center gap-2 text-lg font-semibold mb-2 text-[#236288]">
+        {/* ===== Giới thiệu ===== */}
+        <div className="mt-6 md:mt-8">
+          <h2 className="flex items-center gap-2 text-base md:text-lg font-semibold mb-2 text-[#236288]">
             <FaInfoCircle />
             Giới thiệu
           </h2>
+
           <p
-            className={`text-gray-500 leading-relaxed  ${
+            className={`text-gray-600 text-sm md:text-base leading-relaxed ${
               !active ? "line-clamp-3" : ""
             }`}
           >
             {storySlug.description}
           </p>
+
           <button
             onClick={() => setActive(!active)}
-            className="text-main cursor-pointer text-center"
+            className="text-[#236288] text-sm mt-2"
           >
             {active ? "Thu gọn" : "Xem thêm"}
           </button>
         </div>
-        <Chapter />
-        <Comment storyId={storySlug._id} />
-        <CommentList storyId={storySlug._id} />
+
+        {/* Chapter */}
+        <div className="mt-8">
+          <Chapter />
+        </div>
+
+        {/* Comment */}
+        <div className="mt-8">
+          <Comment storyId={storySlug._id} />
+          <CommentList storyId={storySlug._id} />
+        </div>
       </div>
+
+      {/* Toast */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
         toastStyle={{
           fontSize: window.innerWidth < 768 ? "12px" : "16px",
-          minWidth: window.innerWidth < 768 ? "10px" : "50px",
+          minWidth: window.innerWidth < 768 ? "120px" : "200px",
         }}
       />
     </div>

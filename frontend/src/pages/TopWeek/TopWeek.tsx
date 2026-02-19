@@ -24,13 +24,13 @@ export const TopWeek = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="container">
-      <section className=" flex text-red-400 font-medium uppercase items-center my-4 text-xl">
+    <div className="lg:w-[80%] w-[90%] mx-auto">
+      <section className=" flex text-red-400 font-medium uppercase items-center my-4 lg:text-xl text-lg">
         <FaTrophy className="mr-2 my-4" />
         <h1>Top truyện của tuần</h1>
       </section>
 
-      <div className="grid grid-cols-6 gap-x-6 gap-y-10">
+         <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 ml-2  gap-x-6  gap-y-6 lg:gap-y-10">
         {storyWeek.map((item) => (
           <ItemStory key={item._id} itemStory={item} />
         ))}

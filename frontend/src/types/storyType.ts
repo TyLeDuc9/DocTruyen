@@ -43,5 +43,6 @@ export interface GetStoryParams {
   sort?: "newest" | "oldest";
   country?: string;
   status?: StoryStatus;
+  category?: string;
   keyword?: string;
 }

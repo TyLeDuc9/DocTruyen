@@ -24,8 +24,8 @@ export const AllStory = () => {
   if (loading) return <ComponentLoading />;
   if (error) return <div>Lỗi tải thể loại</div>;
   return (
-    <div className="container">
-      <h1 className="text-main mt-8 text-xl font-medium">Tất cả truyện</h1>
+    <div className="lg:w-[80%] w-[90%] mx-auto">
+      <h1 className="text-main lg:mt-8 mt-4 lg:text-xl text-lg font-medium">Tất cả truyện</h1>
 
       <FilterStory
         categories={categories}
@@ -36,7 +36,7 @@ export const AllStory = () => {
         onCountryChange={(country) => updateFilter({ country, page: 1 })}
       />
 
-      <div className="grid grid-cols-6 gap-x-6 gap-y-10">
+      <div className="grid lg:grid-cols-6 sm:grid-cols-4 grid-cols-2 ml-2  gap-x-6  gap-y-6 lg:gap-y-10">
         {allStory.map((item) => (
           <ItemStory key={item._id} itemStory={item} />
         ))}

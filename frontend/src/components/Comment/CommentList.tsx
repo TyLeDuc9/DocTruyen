@@ -38,7 +38,7 @@ export const CommentList: React.FC<CommentProps> = ({ storyId }) => {
             <img
               src={comment.userId?.avatarUrl || avatar}
               alt={comment.userId.userName}
-              className="w-10 h-10 rounded-full object-cover"
+              className="lg:w-10 lg:h-10 w-8 h-8 rounded-full object-cover"
             />
 
             <div className="flex-1">
@@ -75,7 +75,7 @@ export const CommentList: React.FC<CommentProps> = ({ storyId }) => {
                   <img
                     src={reply.userId.avatarUrl || avatar}
                     alt={reply.userId.userName}
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="lg:w-10 lg:h-10 w-8 h-8 rounded-full object-cover"
                   />
 
                   <div className="flex-1">
