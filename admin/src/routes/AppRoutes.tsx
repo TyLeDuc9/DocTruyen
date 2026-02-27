@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { PrivateAdmin } from "./PrivateAdmin";
 import { FormLogin } from "../pages/Login/FormLogin";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
@@ -26,6 +26,7 @@ import { ReportUpdate } from "../components/ReportAction/ReportUpdate";
 export const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login-admin" replace />} />
       <Route path="/login-admin" element={<FormLogin />} />
 
       <Route element={<PrivateAdmin />}>
