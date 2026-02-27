@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { createChapterReport } from "../services/chapterReport";
 import type { CreateChapterReport } from "../types/chapterReportType";
-
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const useCreateChapterReport = (chapterId: string) => {
+  const { user } = useSelector((state: RootState) => state.auth);
   const [showForm, setShowForm] = useState(false);
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,6 +23,10 @@ export const useCreateChapterReport = (chapterId: string) => {
   };
 
   const submitReport = async () => {
+    if (!user) {
+      toast.error("Bạn cần đăng nhập để thích truyện");
+      return;
+    }
     if (!reason.trim()) return;
     try {
       setLoading(true);

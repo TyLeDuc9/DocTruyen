@@ -14,7 +14,7 @@ export const Layout = () => {
     if (user) {
       dispatch(getFollowMe() as any);
     }
-  }, [user, dispatch]);
+  }, [user, dispatch]); 
   return (
     <div>
       <Header />
