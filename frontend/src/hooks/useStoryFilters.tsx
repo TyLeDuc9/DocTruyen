@@ -1,6 +1,6 @@
+
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { useAllStory } from "./useAllStory";
 import type { GetStoryParams, StoryStatus } from "../types/storyType";
 
 export const useStoryFilters = () => {
@@ -16,30 +16,17 @@ export const useStoryFilters = () => {
     keyword: searchParams.get("keyword") || undefined,
   });
 
-  const updateURL = (newFilters: GetStoryParams) => {
-    const params: Record<string, string> = {};
+  const updateFilter = (data: Partial<GetStoryParams>) => {
+    const newFilters = { ...filters, ...data };
+    setFilters(newFilters);
 
-    if (newFilters.page) params.page = String(newFilters.page);
-    if (newFilters.sort) params.sort = newFilters.sort;
-    if (newFilters.status) params.status = newFilters.status;
-    if (newFilters.country) params.country = newFilters.country;
-    if (newFilters.keyword) params.keyword = newFilters.keyword;
+    const params: Record<string, string> = {};
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value !== undefined) params[key] = String(value);
+    });
 
     setSearchParams(params);
   };
 
-  const updateFilter = (data: Partial<GetStoryParams>) => {
-    const newFilters = { ...filters, ...data };
-    setFilters(newFilters);
-    updateURL(newFilters);
-  };
-
-  const storyData = useAllStory({ params: filters });
-
-  return {
-    ...storyData,
-    filters,
-    updateFilter,
-    navigate,
-  };
+  return { filters, updateFilter, navigate };
 };
