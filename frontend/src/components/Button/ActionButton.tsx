@@ -51,7 +51,7 @@
 
         <button
           onClick={handleFollow}
-          className={`flex items-center gap-2 px-5 py-2.5  
+          className={`flex items-center gap-2 px-8 py-2.5  
         shadow-md  transition-all duration-200 text-white rounded-sm cursor-pointer
         ${isFollowed ? " text-gray-800 bg-black " : "bg-black"}`}
         >

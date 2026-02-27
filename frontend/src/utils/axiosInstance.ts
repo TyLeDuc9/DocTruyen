@@ -49,7 +49,7 @@ axiosInstance.interceptors.response.use(
       } catch {
         localStorage.removeItem("user");
         localStorage.removeItem("accessToken");
-        window.location.href = "/login";
+        window.location.href = "/";
       }
     }
 
