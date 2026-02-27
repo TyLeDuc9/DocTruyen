@@ -21,7 +21,7 @@ const notifyRoute = require('./routes/notifyRoute')
 const dashRoute = require('./routes/dashboardRoute')
 const chapterReportRoute = require('./routes/chapterReportRoute')
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://doctruyen-1.onrender.com", "https://doctruyen-admin.onrender.com/login-admin"],
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://doctruyen-1.onrender.com", "https://doctruyen-admin.onrender.com"],
     credentials: true,              
 }));
 app.use(express.json());
