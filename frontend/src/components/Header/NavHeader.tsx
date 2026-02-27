@@ -26,12 +26,12 @@ export const NavHeader = () => {
           {headerNavbar.map((item, index) => (
             <li key={index} className="group h-full relative">
               {item.link ? (
-                <a
-                  href={item.link}
+                <Link
+                  to={item.link}
                   className="flex items-center gap-1 h-full px-4 hover:bg-blue-200/30 transition"
                 >
                   {item.name}
-                </a>
+                </Link>
               ) : (
                 <div className="flex items-center gap-1 h-full px-4 cursor-pointer hover:bg-blue-200/30 transition">
                   {item.name}

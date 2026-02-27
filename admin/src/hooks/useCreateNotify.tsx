@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { createNotifyy } from "../services/notifyApi";
 import type { CreateNotifyRequest } from "../types/notifyType";
 

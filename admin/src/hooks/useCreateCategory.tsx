@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createCateoryApi } from "../services/categoryApi";
 import type { CategoryCreateRequest } from "../types/categoryType";
 
