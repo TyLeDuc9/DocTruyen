@@ -15,8 +15,10 @@ export const useSavedHistoryChapter = (
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const { user, accessToken } = useSelector((state: RootState) => state.auth);
+
   useEffect(() => {
     if (!chapterId) return;
+    if (!user || !accessToken) return;
 
     const check = async () => {
       try {
@@ -28,8 +30,7 @@ export const useSavedHistoryChapter = (
     };
 
     check();
-  }, [chapterId]);
-
+  }, [chapterId, user, accessToken]);
   const handleSavedChapterHistory = async () => {
     if (!chapterId || !storyId) return;
 

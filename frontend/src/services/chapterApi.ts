@@ -1,4 +1,4 @@
-import axiosPublic from "../utils/axiosPublic";
+import axios from "axios";
 import { API } from "../config/api";
 import type {
   ChapterListResponse,
@@ -9,13 +9,13 @@ const API_CHAPTER = `${API}/chapter`;
 
 export const getDetailChapter = async (chapterSlug: string) => {
   try {
-    const res = await axiosPublic.get<ChapterDetailResponse>(
+    const res = await axios.get<ChapterDetailResponse>(
       `${API_CHAPTER}/detail/${chapterSlug}`
     );
     return res.data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw error.message;
+    if (axios.isAxiosError(error)) {
+      throw error.response?.data?.message || error.message;
     }
     throw new Error("Unknown error");
   }
@@ -23,13 +23,13 @@ export const getDetailChapter = async (chapterSlug: string) => {
 
 export const getChaptersByStorySlug = async (storySlug: string) => {
   try {
-    const res = await axiosPublic.get<ChapterListResponse>(
+    const res = await axios.get<ChapterListResponse>(
       `${API_CHAPTER}/${storySlug}`
     );
     return res.data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw error.message;
+    if (axios.isAxiosError(error)) {
+      throw error.response?.data?.message || error.message;
     }
     throw new Error("Unknown error");
   }
