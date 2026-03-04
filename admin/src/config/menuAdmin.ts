@@ -10,6 +10,9 @@ import {
   FaUserPlus,
   FaBug,
 } from "react-icons/fa";
+import {
+  FiGlobe
+} from "react-icons/fi";
 import { IoNotifications } from "react-icons/io5";
 export const menuAdmin = [
   { name: "Dashboard", path: "/admin", icon: FaTachometerAlt },
@@ -23,4 +26,5 @@ export const menuAdmin = [
   { name: "Comment", path: "/admin/comment", icon: FaComment },
   { name: "Follow", path: "/admin/follow", icon: FaUserPlus },
   { name: "Report", path: "/admin/chapter-report", icon: FaBug },
+  { name: "Translate", path: "/admin/translate", icon: FiGlobe },
 ];

@@ -106,7 +106,7 @@ export const TopHeader = () => {
                   <img
                     src={userProfile?.avatarUrl || avatarDefault}
                     alt="avatar"
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-11 h-11 cursor-pointer rounded-full object-cover"
                   />
                 </button>
 

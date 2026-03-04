@@ -1,6 +1,5 @@
 import { menuAdmin } from "../../config/menuAdmin";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { IoMailUnread } from "react-icons/io5";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useLogout } from "../../hooks/useLogout";
 import avatarDefault from "../../assets/logo/avatar.jpg";
@@ -57,13 +56,7 @@ export const Home = () => {
       </div>
 
       <div className="ml-[15%] w-[85%] bg-gray-100 min-h-screen overflow-y-auto">
-        <div className="bg-white shadow-sm flex justify-between items-center py-4 px-8 sticky top-0 z-10">
-          <div className="flex items-center gap-4 text-main">
-            <IoMailUnread
-              size={26}
-              className="cursor-pointer hover:text-[#1b4f6c]"
-            />
-          </div>
+        <div className="bg-white shadow-sm flex justify-end items-center py-4 px-8 sticky top-0 z-10">
 
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-2 bg-main text-white p-2 rounded-md">

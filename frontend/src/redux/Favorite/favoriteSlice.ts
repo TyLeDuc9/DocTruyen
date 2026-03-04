@@ -26,6 +26,8 @@ const favoriteSlice = createSlice({
   initialState,
   reducers: {
     resetFavorteState: (state) => {
+      state.favorites = [];
+      state.count = 0;
       state.loading = false;
       state.error = null;
     },
@@ -66,7 +68,7 @@ const favoriteSlice = createSlice({
       .addCase(deleteFavorite.fulfilled, (state, action) => {
         state.loading = false;
         state.favorites = state.favorites.filter(
-          (favorite) => favorite.storyId._id !== action.payload.storyId
+          (favorite) => favorite.storyId._id !== action.payload.storyId,
         );
       })
       .addCase(deleteFavorite.rejected, (state, action) => {

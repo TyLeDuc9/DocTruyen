@@ -5,7 +5,7 @@ const { verifyToken, verifyRole } = require("../middlewares/authMiddleware");
 const chapterController = require("../controllers/chapterController");
 router.post(
   "/create",
-  uploadChapter.array("images", 50),
+  uploadChapter.array("images", 100),
   chapterController.createChapter
 );
 router.get("/all", chapterController.getAllChapterAdmin);
