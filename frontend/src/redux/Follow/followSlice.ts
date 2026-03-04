@@ -26,6 +26,8 @@ const followSlice = createSlice({
   initialState,
   reducers: {
     resetFollowState: (state) => {
+      state.follows = [];
+      state.countFollow = 0;
       state.loading = false;
       state.error = null;
     },
@@ -80,7 +82,7 @@ const followSlice = createSlice({
         state.loading = false;
 
         state.follows = state.follows.filter(
-          (follow) => follow.storyId._id !== action.payload.storyId
+          (follow) => follow.storyId._id !== action.payload.storyId,
         );
       })
       .addCase(deleteFollow.rejected, (state, action) => {

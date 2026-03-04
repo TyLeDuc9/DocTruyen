@@ -22,6 +22,7 @@ import { Notify } from "../pages/Notify/Notify";
 import { ChapterReport } from "../pages/ChapterReport/ChapterReport";
 import { CreateNotify } from "../components/NotifyAction/CreateNotify";
 import { ReportUpdate } from "../components/ReportAction/ReportUpdate";
+import { AllTranslate } from "../pages/Translate/AllTranslate";
 
 export const AppRoutes = () => {
   return (
@@ -43,6 +44,7 @@ export const AppRoutes = () => {
           <Route path="favorite" element={<AllFavorite />} />
           <Route path="follow" element={<AllFollow />} />
           <Route path="comment" element={<AllComment />} />
+          <Route path="translate" element={<AllTranslate />} />
           <Route path="category/create" element={<CategoryCreate />} />
           <Route path="category/update/:slug" element={<CategoryUpdate />} />
           <Route path="story/create" element={<CreateStory />} />

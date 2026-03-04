@@ -20,6 +20,7 @@ const readingHistoryRoute = require('./routes/readingHistoryRoute')
 const notifyRoute = require('./routes/notifyRoute')
 const dashRoute = require('./routes/dashboardRoute')
 const chapterReportRoute = require('./routes/chapterReportRoute')
+const translateRoute = require('./routes/translateRequestRoute')
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:5174", "https://doctruyen-1.onrender.com", "https://doctruyen-admin.onrender.com"],
     credentials: true,              
@@ -39,6 +40,7 @@ app.use('/api/reading-history', readingHistoryRoute)
 app.use('/api/notify', notifyRoute)
 app.use('/api/dashboard', dashRoute)
 app.use('/api/chapter-report', chapterReportRoute)
+app.use('/api/translate', translateRoute)
 
 
 

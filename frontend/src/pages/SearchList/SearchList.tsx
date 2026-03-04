@@ -26,7 +26,7 @@ export const SearchList = () => {
   if (error) return <div>Lỗi tải kết quả tìm kiếm</div>;
 
   return (
-    <div className="lg:w-[80%] w-[90%] mx-auto">
+    <div className="lg:w-[80%] w-[90%] mx-auto min-h-screen">
       <section className="flex text-black font-medium uppercase items-center my-4 lg:text-xl text-lg">
         <FaSearch className="mr-2 text-main" />
         <h1 className="text-main">

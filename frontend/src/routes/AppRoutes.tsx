@@ -19,6 +19,7 @@ import { TopView } from "../pages/TopView/TopView";
 import { StoryComplete } from "../pages/StoryComplete/StoryComplete";
 import { SearchList } from "../pages/SearchList/SearchList";
 import { NotifyList } from "../components/Notify/NotifyList";
+import { Translate } from "../pages/Translate/Translate";
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -43,6 +44,7 @@ export const AppRoutes = () => {
             <Route path="history/story" element={<HistoryStory />} />
             <Route path="history/chapter" element={<HistoryChapter />} />
             <Route path="notify" element={<NotifyList />} />
+            <Route path="translate" element={<Translate />} />
           </Route>
         </Route>
       </Route>

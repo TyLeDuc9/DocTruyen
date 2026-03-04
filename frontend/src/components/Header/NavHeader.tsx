@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Genre } from "../Genre/Genre";
 import TopGenre from "../Genre/TopGenre";
 import { headerNavbar } from "../../config/headerNavbar";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
 import { Link } from "react-router-dom";
 export const NavHeader = () => {
   const [openMobile, setOpenMobile] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
+  const { user } = useSelector((state: RootState) => state.auth);
   return (
     <nav className="bg-main relative">
       <div className="lg:w-[80%] w-[90%] mx-auto">
@@ -23,48 +25,46 @@ export const NavHeader = () => {
 
         {/* DESKTOP NAV */}
         <ul className="hidden lg:flex items-center text-white text-sm font-medium h-14">
-          {headerNavbar.map((item, index) => (
-            <li key={index} className="group h-full relative">
-              {item.link ? (
-                <Link
-                  to={item.link}
-                  className="flex items-center gap-1 h-full px-4 hover:bg-blue-200/30 transition"
-                >
-                  {item.name}
-                </Link>
-              ) : (
-                <div className="flex items-center gap-1 h-full px-4 cursor-pointer hover:bg-blue-200/30 transition">
-                  {item.name}
-                  {item.dropdown && (
-                    <FiChevronDown size={14} className="mt-1" />
-                  )}
-                </div>
-              )}
+          {headerNavbar.map((item, index) => {
+            if (!user && item.link === "/yeu-cau-dich") return null;
 
-              {/* Dropdown Desktop */}
-              {item.dropdown && item.name === "Thể Loại" && (
-                <div
-                  className="absolute -left-60 top-full hidden group-hover:block w-screen
-                 bg-white text-gray-600 shadow-lg border-t z-50"
-                >
-                  <div className="max-w-7xl mx-auto px-6 py-6">
-                    <Genre />
+            return (
+              <li key={index} className="group h-full relative">
+                {item.link ? (
+                  <Link
+                    to={item.link}
+                    className="flex items-center gap-1 h-full px-4 hover:bg-blue-200/30 transition"
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-1 h-full px-4 cursor-pointer hover:bg-blue-200/30 transition">
+                    {item.name}
+                    {item.dropdown && (
+                      <FiChevronDown size={14} className="mt-1" />
+                    )}
                   </div>
-                </div>
-              )}
+                )}
 
-              {item.dropdown && item.name === "Xếp Hạng" && (
-                <div
-                  className="absolute -left-90 top-full hidden group-hover:block w-screen
-                 bg-white text-gray-600 shadow-lg border-t z-50"
-                >
-                  <div className="max-w-7xl mx-auto px-6 py-6">
-                    <TopGenre />
+                {/* Dropdown */}
+                {item.dropdown && item.name === "Thể Loại" && (
+                  <div className="absolute -left-60 top-full hidden group-hover:block w-screen bg-white text-gray-600 shadow-lg border-t z-50">
+                    <div className="max-w-7xl mx-auto px-6 py-6">
+                      <Genre />
+                    </div>
                   </div>
-                </div>
-              )}
-            </li>
-          ))}
+                )}
+
+                {item.dropdown && item.name === "Xếp Hạng" && (
+                  <div className="absolute -left-90 top-full hidden group-hover:block w-screen bg-white text-gray-600 shadow-lg border-t z-50">
+                    <div className="max-w-7xl mx-auto px-6 py-6">
+                      <TopGenre />
+                    </div>
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         {/* MOBILE DROPDOWN MENU */}
