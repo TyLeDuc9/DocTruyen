@@ -26,7 +26,7 @@ export const NavHeader = () => {
         {/* DESKTOP NAV */}
         <ul className="hidden lg:flex items-center text-white text-sm font-medium h-14">
           {headerNavbar.map((item, index) => {
-            if (!user && item.link === "/yeu-cau-dich") return null;
+            if (!user && item.link === "/user/translate") return null;
 
             return (
               <li key={index} className="group h-full relative">
@@ -70,44 +70,49 @@ export const NavHeader = () => {
         {/* MOBILE DROPDOWN MENU */}
         {openMobile && (
           <div className="lg:hidden text-white text-sm py-1 space-y-2">
-            {headerNavbar.map((item, index) => (
-              <div key={index} className="border-b last:border-none">
-                {item.link ? (
-                  <a
-                    href={item.link}
-                    className="block py-1 font-medium"
-                    onClick={() => setOpenMobile(false)}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <>
-                    <button
-                      onClick={() =>
-                        setOpenDropdown(
-                          openDropdown === item.name ? null : item.name,
-                        )
-                      }
-                      className="flex justify-between items-center w-full py-1 font-medium"
+            {headerNavbar.map((item, index) => {
+              if (!user && item.link === "/user/translate") return null;
+
+              return (
+                <div key={index} className="border-b last:border-none">
+                  {item.link ? (
+                    <Link
+                      to={item.link}
+                      className="block py-1 font-medium"
+                      onClick={() => setOpenMobile(false)}
                     >
                       {item.name}
-                      <FiChevronDown
-                        size={16}
-                        className={`transition ${
-                          openDropdown === item.name ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    {openDropdown === item.name && (
-                      <div className="">
-                        {item.name === "Thể Loại" && <Genre />}
-                        {item.name === "Xếp Hạng" && <TopGenre />}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            ))}
+                    </Link>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() =>
+                          setOpenDropdown(
+                            openDropdown === item.name ? null : item.name,
+                          )
+                        }
+                        className="flex justify-between items-center w-full py-1 font-medium"
+                      >
+                        {item.name}
+                        <FiChevronDown
+                          size={16}
+                          className={`transition ${
+                            openDropdown === item.name ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {openDropdown === item.name && (
+                        <div>
+                          {item.name === "Thể Loại" && <Genre />}
+                          {item.name === "Xếp Hạng" && <TopGenre />}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
