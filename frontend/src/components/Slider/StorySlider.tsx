@@ -3,9 +3,6 @@ import { Navigation } from "swiper/modules";
 import { useRef } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 
-import "swiper/css";
-import "swiper/css/navigation";
-
 type StorySliderProps<T> = {
   data: T[];
   renderItem: (item: T) => React.ReactNode;
@@ -47,9 +44,10 @@ export const StorySlider = <T,>({
         spaceBetween={30}
         slidesPerView={6}
         onInit={(swiper) => {
-          // @ts-ignore
+          // @ts-expect-error Swiper navigation typing issue
           swiper.params.navigation.prevEl = prevRef.current;
-          // @ts-ignore
+
+          // @ts-expect-error Swiper navigation typing issue
           swiper.params.navigation.nextEl = nextRef.current;
 
           swiper.navigation.init();
@@ -62,9 +60,7 @@ export const StorySlider = <T,>({
         }}
       >
         {data.map((item) => (
-          <SwiperSlide key={getKey(item)}>
-            {renderItem(item)}
-          </SwiperSlide>
+          <SwiperSlide key={getKey(item)}>{renderItem(item)}</SwiperSlide>
         ))}
       </Swiper>
     </div>
