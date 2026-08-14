@@ -5,9 +5,9 @@ const path = require("path");
 const os = require("os");
 
 const url =
-  "https://truyenqqko.com/truyen-tranh/doi-quan-doraemon-dac-biet-21362-chap-5";
+  "https://truyenqqko.com/truyen-tranh/doi-quan-doraemon-dac-biet-21362-chap-14";
 
-const picturesDir = "D:\\5";
+const picturesDir = "D:\\14";
 
 
 async function downloadImages() {

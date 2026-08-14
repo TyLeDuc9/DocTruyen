@@ -34,7 +34,7 @@ export const Chapter = () => {
               Chương {chapter.displayNumber} - {chapter.title}
             </span>
 
-            <span className="text-gray-400 text-sm">
+            <span className="text-gray-400 lg:text-sm text-xs">
               {new Date(chapter.createdAt).toLocaleDateString("vi-VN")}
             </span>
           </Link>

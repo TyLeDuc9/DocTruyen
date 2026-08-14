@@ -51,15 +51,15 @@ export const ChapterDetail = () => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
   return (
     <div className="bg-gray-950 min-h-screen">
-      <div className="lg:w-[80%] w-[90%] mx-auto">
+      <div className="lg:w-[80%] w-[95%] mx-auto">
         <div className="lg:pt-8 pt-4">
           <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm rounded-lg">
             <Link to="/" className="hover:text-[#236288]">
               Trang chủ
             </Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1">/</span>
             <Link to={`/manga/${story?.slug}`}>{story?.name}</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1">/</span>
             <Link to={`/chapter/detail/${chapterDetail?.slug}`}>
               Chương {chapterDetail?.displayNumber}
             </Link>
@@ -123,7 +123,7 @@ export const ChapterDetail = () => {
             />
           ))}
         </div>
-        <div className="lg:w-[80%] w-[90%] mx-auto">
+        <div className="lg:w-[80%] w-[95%] mx-auto">
           <div className="pt-8">
             <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm rounded-lg">
               <div className="">
@@ -164,9 +164,9 @@ export const ChapterDetail = () => {
               <Link to="/" className="hover:text-[#236288]">
                 Trang chủ
               </Link>
-              <span className="mx-2">/</span>
+              <span className="mx-1">/</span>
               <Link to={`/manga/${story?.slug}`}>{story?.name}</Link>
-              <span className="mx-2">/</span>
+              <span className="mx-1">/</span>
               <Link to={`/chapter/detail/${chapterDetail?.slug}`}>
                 Chương {chapterDetail?.displayNumber}
               </Link>
