@@ -30,7 +30,7 @@ export const HistoryStory = () => {
               <img
                 src={item.story.thumbnail}
                 alt={item.story.name}
-                className="w-full h-auto rounded overflow-hidden"
+                className="w-full h-[200px] lg:h-[250px] object-cover rounded"
               />
 
               <h3 className="mt-2 lg:text-base text-xs hover:text-[#236288] font-semibold text-center line-clamp-1 cursor-pointer">
