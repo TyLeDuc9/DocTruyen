@@ -11,7 +11,7 @@ export const Chapter = () => {
   useEffect(() => {
     setComponentsLoading(loading);
   }, [loading]);
-  if (loading) return <ComponentLoading />; 
+  if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
@@ -20,7 +20,7 @@ export const Chapter = () => {
         <FaBook />
         Danh sách chương
       </h2>
-      <div className="border border-blue-100 rounded-sm">
+      <div className="border border-blue-100 rounded-sm max-h-[500px] overflow-y-auto scrollbar-thin">
         {chapters.map((chapter) => (
           <Link
             key={chapter._id}
@@ -31,7 +31,7 @@ export const Chapter = () => {
               hover:bg-gray-50 transition"
           >
             <span className="hover:text-blue-600 cursor-pointer">
-              Chương {chapter.displayNumber}
+              Chương {chapter.displayNumber} - {chapter.title}
             </span>
 
             <span className="text-gray-400 text-sm">

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Genre } from "../Genre/Genre";
 import TopGenre from "../Genre/TopGenre";
 import { headerNavbar } from "../../config/headerNavbar";
-import { useSelector } from "react-redux";
+  import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { Link } from "react-router-dom";
 export const NavHeader = () => {

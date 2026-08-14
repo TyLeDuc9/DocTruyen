@@ -229,7 +229,6 @@ exports.register = async (req, res) => {
 exports.changePassword = async (req, res) => {
     try {
         const userId = req.user._id;
-        console.log("REQ USER:", req.user);
         const { oldPassword, newPassword } = req.body;
         if (!oldPassword || !newPassword) {
             return res.status(400).json({ message: "Missing password fields" });

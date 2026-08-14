@@ -1,6 +1,6 @@
 import { HiSparkles } from "react-icons/hi";
-import { FaFutbol } from "react-icons/fa";
-import { FaFire, FaTheaterMasks, FaUserSecret } from "react-icons/fa";
+// import { FaFutbol } from "react-icons/fa";
+import { FaFire, FaUserSecret } from "react-icons/fa";
 import { LatestStory } from "../../components/TopStory/LatestStory";
 import { TopStory } from "../../components/TopStory/TopStory";
 import { CategoryStory } from "../../components/TopStory/CategoryStory";
@@ -19,20 +19,20 @@ export const Home = () => {
         <h2 className="text-base lg:text-lg">Truyện hay</h2>
       </section>
       <TopStory />
-      <section className="flex text-green-400 font-medium uppercase items-center my-4 text-xl">
+      {/* <section className="flex text-green-400 font-medium uppercase items-center my-4 text-xl">
         <FaTheaterMasks className="mr-2" />
         <h2 className="text-base lg:text-lg">Comic</h2>
-      </section>
+      </section> */}
       <CategoryStory slug="comic" />
       <section className="flex text-orange-400 font-medium uppercase items-center my-4 mb-4 text-xl">
         <FaUserSecret />
         <h2 className="text-base lg:text-lg">Detective</h2>
       </section>
       <CategoryStory slug="detective" />
-      <section className="flex text-blue-400 font-medium uppercase items-center my-4 mb-4 text-xl">
+      {/* <section className="flex text-blue-400 font-medium uppercase items-center my-4 mb-4 text-xl">
         <FaFutbol />
         <h2 className="text-base lg:text-lg">Thể thao</h2>
-      </section>
+      </section> */}
       <CategoryStory slug="sports" />
     </div>
   );

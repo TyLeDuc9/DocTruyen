@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FaBug, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {  FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useEffect } from "react";
 import { useChapterStorySlug } from "../../hooks/useChapterStorySlug";
 import { useChapterDetail } from "../../hooks/useChapterDetail";
@@ -126,15 +126,10 @@ export const ChapterDetail = () => {
         <div className="lg:w-[80%] w-[90%] mx-auto">
           <div className="pt-8">
             <div className="bg-gray-50 py-8 p-4 text-sm shadow-sm rounded-lg">
-              <div className="flex justify-center mt-2">
-                <button
-                  className="bg-red-500 lg:px-4 px-2 py-2 text-white rounded-sm 
-                     hover:bg-red-400 cursor-pointer
-                     flex items-center gap-2"
-                >
-                  <FaBug />
-                  Báo lỗi chương
-                </button>
+              <div className="">
+                {chapterDetail && (
+                  <ReportButton chapterId={chapterDetail._id} />
+                )}
               </div>
 
               <div className="flex justify-center my-4">
