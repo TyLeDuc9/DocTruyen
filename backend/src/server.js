@@ -6,7 +6,7 @@ const { connectDB } = require('./libs/db');
     dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 3000
 
 const categoryRoute = require('./routes/categoryRoute')
 const storyRoute = require('./routes/storyRoute')
@@ -22,7 +22,7 @@ const dashRoute = require('./routes/dashboardRoute')
 const chapterReportRoute = require('./routes/chapterReportRoute')
 const translateRoute = require('./routes/translateRequestRoute')
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://doctruyen-1.onrender.com", "https://doctruyen-admin.onrender.com"],
+    origin: ["http://localhost:5173","https://doctruyen.cloud", "http://localhost:5174", "https://doctruyen-1.onrender.com", "https://doctruyen-admin.onrender.com"],
     credentials: true,              
 }));
 app.use(express.json());

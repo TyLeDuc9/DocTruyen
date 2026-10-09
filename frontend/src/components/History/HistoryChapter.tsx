@@ -25,7 +25,13 @@ export const HistoryChapter = () => {
 
   if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
-
+  if (historyChapter.length === 0) {
+    return (
+      <p className="text-center text-gray-400 py-10">
+        Bạn chưa lưu truyện nào
+      </p>
+    );
+  }
   const handleDeleteChapter = async (chapterId: string) => {
     try {
       await deleteChapterApi({ chapterId });
@@ -38,7 +44,6 @@ export const HistoryChapter = () => {
 
   return (
     <div className="w-full">
-
       {/* Filter */}
       <div className="mb-4 flex flex-col sm:flex-row sm:items-center gap-2">
         <span className="text-sm font-medium text-gray-600">Sắp xếp:</span>

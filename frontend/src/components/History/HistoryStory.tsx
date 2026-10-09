@@ -13,6 +13,13 @@ export const HistoryStory = () => {
   }, [loading]);
   if (loading) return <ComponentLoading />;
   if (error) return <p className="text-red-500">{error}</p>;
+  if (historyStory.length === 0) {
+    return (
+      <p className="text-center text-gray-400 py-10">
+        Bạn chưa ấn vào xem truyện nào hết
+      </p>
+    );
+  }
 
   return (
     <div className="w-full">

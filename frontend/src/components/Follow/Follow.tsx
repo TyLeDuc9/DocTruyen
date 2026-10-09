@@ -26,7 +26,7 @@ export const Follow: React.FC = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   if (follows.length === 0) {
-    return <p>Bạn chưa theo dõi truyện nào</p>;
+    return <p className="text-center text-gray-400 py-10">Bạn chưa theo dõi truyện nào</p>;
   }
 
   return (

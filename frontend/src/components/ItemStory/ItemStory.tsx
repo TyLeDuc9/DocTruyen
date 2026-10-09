@@ -16,14 +16,20 @@ export const ItemStory: React.FC<ItemStoryProps> = ({ itemStory }) => {
         to={`/manga/${itemStory.slug}`}
         onClick={() => handleSavedHistoryStory(itemStory._id)}
       >
-        <div className="w-full lg:h-[250px] h-[200px] overflow-hidden rounded">
+        {/* <div className="lg:h-[280px] h-[220px] lg:w-44 overflow-hidden rounded">
+          <img
+            src={itemStory.thumbnail}
+            alt={itemStory.name}
+            className="object-cover"
+          />
+        </div> */}
+        <div className="lg:h-[280px] h-[220px] w-full lg:w-44 overflow-hidden rounded">
           <img
             src={itemStory.thumbnail}
             alt={itemStory.name}
             className="w-full h-full object-cover"
           />
         </div>
-
         <h3 className="mt-2 lg:text-base text-xs hover:text-[#236288] font-semibold text-center line-clamp-1 cursor-pointer">
           {itemStory.name}
         </h3>

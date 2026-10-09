@@ -33,7 +33,7 @@ export const MenuNavbar = () => {
               className={`
                 flex items-center gap-2 justify-start
                 px-3 py-3
-                text-sm lg:text-base
+                text-sm lg:text-lg
                 cursor-pointer rounded-lg
                 transition-all duration-200
                 ${

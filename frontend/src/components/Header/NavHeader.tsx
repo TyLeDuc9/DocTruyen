@@ -1,9 +1,9 @@
 import { FiChevronDown, FiMenu, FiX, FiHome } from "react-icons/fi";
 import { useState } from "react";
 import { Genre } from "../Genre/Genre";
-import TopGenre from "../Genre/TopGenre";
+// import TopGenre from "../Genre/TopGenre";
 import { headerNavbar } from "../../config/headerNavbar";
-  import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { Link } from "react-router-dom";
 export const NavHeader = () => {
@@ -26,8 +26,13 @@ export const NavHeader = () => {
         {/* DESKTOP NAV */}
         <ul className="hidden lg:flex items-center text-white text-sm font-medium h-14">
           {headerNavbar.map((item, index) => {
-            if (!user && item.link === "/user/translate") return null;
-
+            if (
+              !user &&
+              (item.link === "/user/translate" ||
+                item.link === "/user/history/story")
+            ) {
+              return null;
+            }
             return (
               <li key={index} className="group h-full relative">
                 {item.link ? (
@@ -55,13 +60,13 @@ export const NavHeader = () => {
                   </div>
                 )}
 
-                {item.dropdown && item.name === "Xếp Hạng" && (
+                {/* {item.dropdown && item.name === "Lịch sử xem" && (
                   <div className="absolute -left-90 top-full hidden group-hover:block w-screen bg-white text-gray-600 shadow-lg border-t z-50">
                     <div className="max-w-7xl mx-auto px-6 py-6">
                       <TopGenre />
                     </div>
                   </div>
-                )}
+                )} */}
               </li>
             );
           })}
@@ -71,7 +76,13 @@ export const NavHeader = () => {
         {openMobile && (
           <div className="lg:hidden text-white text-sm py-1 space-y-2">
             {headerNavbar.map((item, index) => {
-              if (!user && item.link === "/user/translate") return null;
+              if (
+                !user &&
+                (item.link === "/user/translate" ||
+                  item.link === "/user/history/story")
+              ) {
+                return null;
+              }
 
               return (
                 <div key={index} className="border-b last:border-none">
@@ -105,7 +116,7 @@ export const NavHeader = () => {
                       {openDropdown === item.name && (
                         <div>
                           {item.name === "Thể Loại" && <Genre />}
-                          {item.name === "Xếp Hạng" && <TopGenre />}
+                          {/* {item.name === "Xếp Hạng" && <TopGenre />} */}
                         </div>
                       )}
                     </>

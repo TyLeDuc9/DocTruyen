@@ -23,7 +23,7 @@ export const UserNavbar = () => {
               if (item.to) navigate(item.to);
               if (item.action) item.action();
             }}
-            className="flex items-center gap-2 px-4 py-2 text-white text-sm hover:bg-main/80 hover:text-yellow-300 cursor-pointer transition"
+            className="flex items-center gap-2 px-4 py-2 text-white lg:text-lg text-sm hover:bg-main/80 hover:text-yellow-300 cursor-pointer transition"
           >
             {item.icon}
             <span>{item.name}</span>
